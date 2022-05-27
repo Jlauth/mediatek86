@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import model.Personnel;
 
 public class DataAccess {
-	private static String url = "jdbc:mysql://localhost/mabase";
-	private static String login = "root";
-	private static String pwd = "";
+	private static String url = "jdbc:mysql://localhost/mediatek86";
+	private static String login = "responsable";
+	private static String pwd = "MediaTek86!";
 	
 	public static void addPersonnel(Personnel unPersonnel) {
 		String sql = "insert into personnel (nom, prenom, tel, mail, service) values (?, ?, ?, ?, ?)";
@@ -29,7 +29,7 @@ public class DataAccess {
 		while (cn.read()) {
 			Personnel unPersonnel = new Personnel();
 			unPersonnel.setNom((String)cn.field("Nom"));
-			unPersonnel.setPrenom((String)cn.field("Prénom"));
+			unPersonnel.setPrenom((String)cn.field("Prenom"));
 			unPersonnel.setTel((String)cn.field("Tel"));
 			unPersonnel.setMail((String)cn.field("Mail"));
 			unPersonnel.setService((String)cn.field("Service"));

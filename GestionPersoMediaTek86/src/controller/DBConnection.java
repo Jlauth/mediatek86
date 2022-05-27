@@ -14,19 +14,20 @@ public class DBConnection {
 	
 	private DBConnection(String url, String login, String pwd) {
 		if(cn == null) {
-		try {
-		cn = DriverManager.getConnection(url, login, pwd);
-		}catch(SQLException e) {
-		System.out.println("erreur d'accès à la BDD");
-		System.exit(0);
+			try {
+					cn = DriverManager.getConnection(url, login, pwd);
+			}catch(SQLException e) {
+				System.out.println("Erreur d'accès à la BDD");
+				System.exit(0);
+			}
 		}
-		}
-		}
+	}
 	
 	public static DBConnection getInstance(String url, String login, String pwd) {
 		if (instance == null) {
 		instance = new DBConnection(url, login, pwd);
 		}
+		System.out.println("Connected");
 		return instance;
 		}
 	
