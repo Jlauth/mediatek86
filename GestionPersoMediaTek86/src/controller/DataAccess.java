@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import model.Personnel;
 
@@ -21,7 +22,7 @@ public class DataAccess {
 		cn.reqUpdate(sql, lesPersos);
 		}
 	
-	public static ArrayList<Personnel> recupPersonnels() {
+	public static List<Personnel> recupPersonnels() {
 		String sql = "select * from personnel";
 		ArrayList<Personnel> lesPersonnels = new ArrayList<>();
 		DBConnection cn = DBConnection.getInstance(url, login, pwd);
@@ -33,10 +34,27 @@ public class DataAccess {
 			unPersonnel.setTel((String)cn.field("Tel"));
 			unPersonnel.setMail((String)cn.field("Mail"));
 			unPersonnel.setService((String)cn.field("Service"));
-		lesPersonnels.add(unPersonnel);
+			lesPersonnels.add(unPersonnel);
 		}
 		cn.close();
 		return lesPersonnels;
 		}
 	
+	 public static List<Personnel> afficher(){
+		 String sql = "select * from personnel";
+	     ArrayList<Personnel> perso = new ArrayList<>();
+	     DBConnection cn = DBConnection.getInstance(url, login, pwd);
+	     cn.reqSelect(sql, null);
+	     while(cn.read()) {
+	        Personnel unPersonnel = new Personnel();
+	        unPersonnel.setNom((String)cn.field("Nom"));
+			unPersonnel.setPrenom((String)cn.field("Prenom"));
+			unPersonnel.setTel((String)cn.field("Tel"));
+			unPersonnel.setMail((String)cn.field("Mail"));
+			unPersonnel.setService((String)cn.field("Service"));
+			perso.add(unPersonnel);
+	     }
+	     return perso;
+	 }
+
 }

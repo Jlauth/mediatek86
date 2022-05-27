@@ -27,7 +27,6 @@ public class DBConnection {
 		if (instance == null) {
 		instance = new DBConnection(url, login, pwd);
 		}
-		System.out.println("Connected");
 		return instance;
 		}
 	

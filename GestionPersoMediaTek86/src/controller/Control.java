@@ -3,10 +3,12 @@ package controller;
 import java.util.ArrayList;
 
 import model.Personnel;
+import view.HomeFrame;
 import view.LoginFrame;
 
 public class Control {
-	public static void sauverEnBase() {
+	
+	/*public static void sauverEnBase() {
 		// construction du personnel
 		Personnel unPersonnel = new Personnel();
 		unPersonnel.setNom("azea");
@@ -17,9 +19,10 @@ public class Control {
 		// demande d'ajout du personnel
 		DataAccess.addPersonnel(unPersonnel);
 		}
+	*/
 	
 	public static void lireEnBase() {
-		ArrayList<Personnel> lesPersonnels = DataAccess.recupPersonnels();
+		ArrayList<Personnel> lesPersonnels = (ArrayList<Personnel>) DataAccess.recupPersonnels();
 		for(Personnel unPersonnel : lesPersonnels) {
 		System.out.println(unPersonnel.getNom()+" "+
 				unPersonnel.getPrenom()+" "+
@@ -35,5 +38,8 @@ public class Control {
 		
 		LoginFrame frame = new LoginFrame();
 		frame.setVisible(true);
+		
+		new HomeFrame().setVisible(true);
+		
 		}
 }

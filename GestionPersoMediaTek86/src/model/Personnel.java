@@ -6,6 +6,7 @@ public class Personnel {
 	private String tel;
 	private String mail;
 	private String service;
+	
 	/**
 	 * @return the nom
 	 */
@@ -66,6 +67,5 @@ public class Personnel {
 	public void setService(String service) {
 		this.service = service;
 	}
-	
 	
 }
