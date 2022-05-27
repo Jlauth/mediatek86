@@ -9,7 +9,7 @@ public class DataAccess {
 	private static String login = "root";
 	private static String pwd = "";
 	
-	public static void addProduit(Personnel unPersonnel) {
+	public static void addPersonnel(Personnel unPersonnel) {
 		String sql = "insert into personnel (nom, prenom, tel, mail, service) values (?, ?, ?, ?, ?)";
 		ArrayList<Object> lesPersos = new ArrayList<>();
 		lesPersos.add(unPersonnel.getNom());
@@ -21,7 +21,7 @@ public class DataAccess {
 		cn.reqUpdate(sql, lesPersos);
 		}
 	
-	public static ArrayList<Personnel> recupProduits() {
+	public static ArrayList<Personnel> recupPersonnels() {
 		String sql = "select * from personnel";
 		ArrayList<Personnel> lesPersonnels = new ArrayList<>();
 		DBConnection cn = DBConnection.getInstance(url, login, pwd);
