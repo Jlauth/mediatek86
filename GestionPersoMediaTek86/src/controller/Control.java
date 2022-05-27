@@ -41,4 +41,5 @@ public class Control {
 		
 		new HomeFrame().setVisible(true);
 		}
+	
 }
