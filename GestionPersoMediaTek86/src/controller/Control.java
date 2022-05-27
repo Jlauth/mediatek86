@@ -3,6 +3,7 @@ package controller;
 import java.util.ArrayList;
 
 import model.Personnel;
+import view.LoginFrame;
 
 public class Control {
 	public static void sauverEnBase() {
@@ -31,5 +32,8 @@ public class Control {
 	public static void main(String[] args) {
 		/*sauverEnBase();*/
 		lireEnBase();
+		
+		LoginFrame frame = new LoginFrame();
+		frame.setVisible(true);
 		}
 }
