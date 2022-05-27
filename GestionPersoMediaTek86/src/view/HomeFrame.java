@@ -28,9 +28,9 @@ public class HomeFrame extends JFrame {
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    this.setTitle("MediaTek86");
 	    label.setForeground(Color.white);
-	    p.setBackground(Color.ORANGE);
+	    p.setBackground(Color.BLACK);
 	    p.add(label);
-	    this.add(p, BorderLayout.NORTH);
+	    getContentPane().add(p, BorderLayout.NORTH);
 	         
 	    data();
 	    }
@@ -38,22 +38,19 @@ public class HomeFrame extends JFrame {
 	    public void data() {
 	        new Personnel();
 	        Object[][] body = new Object[(DataAccess.afficher()).size()][5];
-	        String [] header= {"Nom", "prenom","Tel","Mail","Service"} ;
+	        String [] header= {"Nom", "Prénom", "Tel", "Mail", "Service"} ;
 	        table = new JTable();
-	        int i =0;
+	        int i = 0;
 	        for(Personnel et: (DataAccess.afficher())) {
-	         
 	            body[i][0] = et.getNom();
 	            body[i][1] = et.getPrenom();
 	            body[i][2] = et.getTel();
 	            body[i][3] = et.getMail();
 	            body[i][4] = et.getService();
 	            i++;
-	             
 	        }
-	        this.add(new JScrollPane(table));
+	        getContentPane().add(new JScrollPane(table));
 	        table.setModel(new DefaultTableModel(body,header));
-	         
 	    }
 	
 }

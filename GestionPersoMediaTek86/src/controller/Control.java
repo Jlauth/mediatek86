@@ -40,6 +40,5 @@ public class Control {
 		frame.setVisible(true);
 		
 		new HomeFrame().setVisible(true);
-		
 		}
 }
