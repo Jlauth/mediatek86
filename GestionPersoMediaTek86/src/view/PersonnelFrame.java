@@ -12,7 +12,7 @@ import javax.swing.table.DefaultTableModel;
 import controller.DataAccess;
 import model.Personnel;
 
-public class HomeFrame extends JFrame {
+public class PersonnelFrame extends JFrame {
 
 	/**
 	 * 
@@ -22,7 +22,7 @@ public class HomeFrame extends JFrame {
     JLabel label = new JLabel("Liste du Personnel");
 	JTable table = null;
 	
-	public HomeFrame() {
+	public PersonnelFrame() {
 	
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
@@ -49,13 +49,13 @@ public class HomeFrame extends JFrame {
 		        body[i][4] = et.getService();
 		        i++;
 		}
-		getContentPane().setLayout(null);
+		table.setModel(new DefaultTableModel(body,header));
 		JScrollPane scrollPane = new JScrollPane(table);
+		getContentPane().setLayout(null);
 		scrollPane.setBounds(343, 0, 341, 361);
 		getContentPane().add(scrollPane);
-        table.setModel(new DefaultTableModel(body,header));  
-        
-              
+          
+    
 	}
 					
 }

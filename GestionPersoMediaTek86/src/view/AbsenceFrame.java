@@ -48,12 +48,12 @@ public class AbsenceFrame extends JFrame {
 		        body[i][4] = et.getMotif();
 		        i++;
 		}
-		getContentPane().setLayout(null);
+		table.setModel(new DefaultTableModel(body,header)); 
 		JScrollPane scrollPane = new JScrollPane(table);
+		getContentPane().setLayout(null);
 		scrollPane.setBounds(343, 0, 341, 361);
 		getContentPane().add(scrollPane);
-        table.setModel(new DefaultTableModel(body,header));  
-            
+     
 	}
 
 }
