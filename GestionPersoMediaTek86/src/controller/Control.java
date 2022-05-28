@@ -46,6 +46,6 @@ public class Control {
 		lireEnBase();
 		
 		new LoginFrame().setVisible(true);
-		}
-	
+		
+		}	
 }
