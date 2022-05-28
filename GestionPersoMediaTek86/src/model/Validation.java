@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Validation {
 	 public List<String> validateLogin(String login, String pwd) {
-	        ArrayList<String> err = new ArrayList<String>();
+	        ArrayList<String> err = new ArrayList<>();
 	        if (login.isEmpty()) {
 	            err.add("Login can not be empty");
 	        } else if (login.length() < 4) {
@@ -23,6 +23,12 @@ public class Validation {
 	        return err;
 	    }
 	 
+	 public List<String> validatePerso(String nom, String prenom, String tel, String mail, String cmbservice) {
+		 ArrayList<String> er = new ArrayList<>();
+		 
+	     return er;
+	   
+	}
 }
 
 

@@ -95,7 +95,7 @@ public class LoginFrame extends JFrame implements ActionListener {
               }
               
               // check password provided by user with stored password in database
-              if (login.equalsIgnoreCase("Test") && pwd.equalsIgnoreCase("1234@.")) {
+              if (login.equalsIgnoreCase("Test") && pwd.equalsIgnoreCase("1234")) {
                   System.out.println("Logged in");
                   new PersonnelFrame().setVisible(true);
               } else {
