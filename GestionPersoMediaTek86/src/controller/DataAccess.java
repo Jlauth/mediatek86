@@ -1,8 +1,10 @@
 package controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Absence;
 import model.Personnel;
 
 public class DataAccess {
@@ -39,22 +41,22 @@ public class DataAccess {
 		cn.close();
 		return lesPersonnels;
 		}
-	
-	 public static List<Personnel> afficher(){
-		 String sql = "select * from personnel";
-	     ArrayList<Personnel> perso = new ArrayList<>();
-	     DBConnection cn = DBConnection.getInstance(url, login, pwd);
-	     cn.reqSelect(sql, null);
-	     while(cn.read()) {
-	        Personnel unPersonnel = new Personnel();
-	        unPersonnel.setNom((String)cn.field("Nom"));
-			unPersonnel.setPrenom((String)cn.field("Prenom"));
-			unPersonnel.setTel((String)cn.field("Tel"));
-			unPersonnel.setMail((String)cn.field("Mail"));
-			unPersonnel.setService((String)cn.field("Service"));
-			perso.add(unPersonnel);
-	     }
-	     return perso;
-	 }
-
+	 
+	public static List<Absence> recupAbsences() {
+		String sql = "select * from absence";
+		ArrayList<Absence> lesAbsences = new ArrayList<>();
+		DBConnection cn = DBConnection.getInstance(url, login, pwd);
+		cn.reqSelect(sql, null);
+		while (cn.read()) {
+			Absence uneAbsence = new Absence();
+			uneAbsence.setDatedebut((Date)cn.field("Date début"));
+			uneAbsence.setDatefin((Date)cn.field("Date fin"));
+			uneAbsence.setNom((String)cn.field("Nom"));
+			uneAbsence.setPrenom((String)cn.field("Prenom"));
+			uneAbsence.setMotif((String)cn.field("Motif"));
+			lesAbsences.add(uneAbsence);
+		}
+		cn.close();
+		return lesAbsences;
+	}
 }

@@ -3,6 +3,7 @@ package controller;
 import java.util.ArrayList;
 
 import model.Personnel;
+import view.AbsenceFrame;
 import view.HomeFrame;
 import view.LoginFrame;
 
@@ -36,10 +37,9 @@ public class Control {
 		/*sauverEnBase();*/
 		lireEnBase();
 		
-		LoginFrame frame = new LoginFrame();
-		frame.setVisible(true);
-		
+		new LoginFrame().setVisible(true);
 		new HomeFrame().setVisible(true);
+		new AbsenceFrame().setVisible(true);
 		}
 	
 }
