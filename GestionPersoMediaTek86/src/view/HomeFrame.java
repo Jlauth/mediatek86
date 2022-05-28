@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,7 +20,6 @@ public class HomeFrame extends JFrame {
 	JPanel p = new JPanel();
 	JLabel label = new JLabel("Liste du Personnel");     
 	JTable table = null;
-	
 	public HomeFrame() {
 		this.setLocationRelativeTo(null);
 	    this.setSize(700,400);
@@ -29,27 +27,28 @@ public class HomeFrame extends JFrame {
 	    this.setTitle("MediaTek86");
 	    label.setForeground(Color.white);
 	    p.setBounds(359, 30, 414, 24);
-	    p.setBackground(Color.BLACK);
-	    p.add(label);
-	    this.add(p, BorderLayout.NORTH);	         
+	    p.setBackground(Color.GRAY);
+	    p.add(label);	         
 	    data();
-	}	
+	
+	}
 	
 	public void data() {
-	    Object[][] body = new Object[(DataAccess.afficher()).size()][5];
-	    String [] header = {"Nom", "Prénom", "Tel", "Mail", "Service"} ;
-	    table = new JTable();
-	    int i = 0;
-	    for(Personnel et: (DataAccess.afficher())) {
-	    	body[i][0] = et.getNom();
-	        body[i][1] = et.getPrenom();
-	        body[i][2] = et.getTel();
-	        body[i][3] = et.getMail();
-	        body[i][4] = et.getService();
-	        i++;
-	    }
-	    this.add(new JScrollPane(table));
-	    table.setModel(new DefaultTableModel(body,header));  
+		Object[][] body = new Object[(DataAccess.afficher()).size()][5];
+		String [] header = {"Nom", "Prénom", "Tel", "Mail", "Service"} ;
+		table = new JTable();
+		int i = 0;
+		for(Personnel et: (DataAccess.afficher())) {
+		    	body[i][0] = et.getNom();
+		        body[i][1] = et.getPrenom();
+		        body[i][2] = et.getTel();
+		        body[i][3] = et.getMail();
+		        body[i][4] = et.getService();
+		        i++;
+		}
+		this.add(new JScrollPane(table));
+		table.setModel(new DefaultTableModel(body,header));    
 	}
+	
 }
 
