@@ -4,9 +4,7 @@ import java.util.ArrayList;
 
 import model.Absence;
 import model.Personnel;
-import view.AbsenceFrame;
 import view.LoginFrame;
-import view.PersonnelFrame;
 
 public class Control {
 	
@@ -48,8 +46,6 @@ public class Control {
 		lireEnBase();
 		
 		new LoginFrame().setVisible(true);
-		new PersonnelFrame().setVisible(true);
-		new AbsenceFrame().setVisible(true);
 		}
 	
 }

@@ -24,6 +24,18 @@ public class DataAccess {
 		cn.reqUpdate(sql, lesPersos);
 		}
 	
+	public static void addAbsence(Absence uneAbsence) {
+		String sql = "insert into absence (datedebut, nom, prenom, datefin, motif) values (?, ?, ?, ?, ?)";
+		ArrayList<Object> lesAbsences = new ArrayList<>();
+		lesAbsences.add(uneAbsence.getDatedebut());
+		lesAbsences.add(uneAbsence.getNom());
+		lesAbsences.add(uneAbsence.getPrenom());
+		lesAbsences.add(uneAbsence.getDatefin());
+		lesAbsences.add(uneAbsence.getMotif());
+		DBConnection cn = DBConnection.getInstance(url, login, pwd);
+		cn.reqUpdate(sql, lesAbsences);
+		}
+	
 	public static List<Personnel> recupPersonnels() {
 		String sql = "select * from personnel";
 		ArrayList<Personnel> lesPersonnels = new ArrayList<>();
