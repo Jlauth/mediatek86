@@ -3,12 +3,16 @@ package view;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -25,9 +29,9 @@ public class PersonnelFrame extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	JPanel panel = new JPanel();
-	JLabel label = new JLabel("Liste du Personnel");
-	JTable table = null;
+	private JPanel panel = new JPanel();
+	private JLabel label = new JLabel("Liste du Personnel");
+	public static JTable table;
 	private JTextField txtNom;
 	private JTextField txtPrenom;
 	private JTextField txtTel;
@@ -38,7 +42,7 @@ public class PersonnelFrame extends JFrame {
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setSize(734, 485);
-		this.setTitle("Liste actualisée du personnel");
+		this.setTitle("Gestion du personnel");
 		panel.setBounds(359, 30, 711, 481);
 		panel.setBackground(Color.GRAY);
 		label.setForeground(Color.white);
@@ -50,7 +54,7 @@ public class PersonnelFrame extends JFrame {
 		 */
 		table = new JTable();
 		Object[][] body = new Object[(DataAccess.recupPersonnels()).size()][5];
-		String[] header = { "Nom", "Prénom", "Tel", "Mail", "Service" };
+		String[] header = { "Nom", "Prenom", "Tel", "Mail", "Service" };
 		int i = 0;
 		for (Personnel et : (DataAccess.recupPersonnels())) {
 			body[i][0] = et.getNom();
@@ -61,7 +65,8 @@ public class PersonnelFrame extends JFrame {
 			i++;
 		}
 		table.setModel(new DefaultTableModel(body, header));
-
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		
 		JScrollPane scrollPane = new JScrollPane(table);
 		getContentPane().setLayout(null);
 		scrollPane.setBounds(299, 26, 396, 384);
@@ -71,11 +76,11 @@ public class PersonnelFrame extends JFrame {
 		lblNom.setBounds(34, 54, 76, 14);
 		getContentPane().add(lblNom);
 
-		JLabel lblPrenom = new JLabel("Prénom");
+		JLabel lblPrenom = new JLabel("Prenom");
 		lblPrenom.setBounds(34, 82, 76, 14);
 		getContentPane().add(lblPrenom);
 
-		JLabel lblTel = new JLabel("Téléphone");
+		JLabel lblTel = new JLabel("Tel");
 		lblTel.setBounds(34, 107, 76, 14);
 		getContentPane().add(lblTel);
 
@@ -107,7 +112,7 @@ public class PersonnelFrame extends JFrame {
 		txtMail.setBounds(120, 129, 148, 20);
 		getContentPane().add(txtMail);
 
-		String[] service = {"Administratif", "Médiation culturelle", "Prêt"};
+		String[] service = {"administratif", "médiation culturelle", "prêt"};
 		JComboBox<Object> cmbService = new JComboBox<>(service);
 		cmbService.setBounds(120, 153, 148, 22);
 		getContentPane().add(cmbService);
@@ -116,15 +121,34 @@ public class PersonnelFrame extends JFrame {
 		btnAjouter.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Vector<String> v = new Vector<String>();
-				v.add(txtNom.getText());
-				v.add(txtPrenom.getText());
-				v.add(txtTel.getText());
-				v.add(txtMail.getText());
-				v.add(cmbService.getSelectedItem().toString());
-				
-				DefaultTableModel dt = (DefaultTableModel) table.getModel();
-				dt.addRow(v);
+				try { 
+					Vector<String> v = new Vector<>();
+					v.add(txtNom.getText());
+					v.add(txtPrenom.getText());
+					v.add(txtTel.getText());
+					v.add(txtMail.getText());
+					v.add(cmbService.getSelectedItem().toString());
+					model.addRow(v);
+			        // establish connection  
+			        Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mediatek86", "responsable", "MediaTek86!");  
+			        Statement statement = con.createStatement();  
+			        statement.executeUpdate("INSERT INTO personnel VALUES(" + txtNom.getText() + ",'" + txtPrenom.getText() + "'," + txtTel.getText() + ",'" + txtMail.getText() + ", " + cmbService.getSelectedItem().toString() +")");  
+			        JOptionPane.showMessageDialog(null, "Record inserted...");  
+			        statement.close();  
+			        con.close();  
+			        Referesh(); //Calling Referesh() method  
+			    } catch (Exception e1) {  
+			        JOptionPane.showMessageDialog(null, e1);  
+			    }  
+			}
+
+			private void Referesh() {
+				{  
+				    txtNom.setText("");  
+				    txtPrenom.setText("");  
+				    txtTel.setText(""); 
+				    txtMail.setText("");  
+				}  
 			}
 		});
 		btnAjouter.setBounds(186, 199, 82, 29);
@@ -134,9 +158,13 @@ public class PersonnelFrame extends JFrame {
 		btnSupprimer.setBounds(186, 279, 82, 29);
 		getContentPane().add(btnSupprimer);
 
-		JButton btnReset = new JButton("Effacer");
-		btnReset.setBounds(34, 381, 82, 29);
-		getContentPane().add(btnReset);
+		JButton btnMaj = new JButton("Mise à jour");
+		btnMaj.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnMaj.setBounds(34, 381, 99, 29);
+		getContentPane().add(btnMaj);
 
 		JButton btnModifier = new JButton("Modifier");
 		btnModifier.setBounds(186, 239, 82, 29);

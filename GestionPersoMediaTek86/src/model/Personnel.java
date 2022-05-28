@@ -5,7 +5,7 @@ public class Personnel {
 	private String prenom;
 	private String tel;
 	private String mail;
-	private Object service;
+	private String service;
 	
 	/**
 	 * @return the nom
@@ -58,13 +58,13 @@ public class Personnel {
 	/**
 	 * @return the service
 	 */
-	public Object getService() {
+	public String getService() {
 		return service;
 	}
 	/**
 	 * @param service the service to set
 	 */
-	public void setService(Object service) {
+	public void setService(String service) {
 		this.service = service;
 	}
 	

@@ -12,6 +12,7 @@ public class DataAccess {
 	private static String login = "responsable";
 	private static String pwd = "MediaTek86!";
 	
+	
 	public static void addPersonnel(Personnel unPersonnel) {
 		String sql = "insert into personnel (nom, prenom, tel, mail, service) values (?, ?, ?, ?, ?)";
 		ArrayList<Object> lesPersos = new ArrayList<>();
@@ -22,10 +23,11 @@ public class DataAccess {
 		lesPersos.add(unPersonnel.getService());
 		DBConnection cn = DBConnection.getInstance(url, login, pwd);
 		cn.reqUpdate(sql, lesPersos);
-		}
+	}
+	
 	
 	public static void addAbsence(Absence uneAbsence) {
-		String sql = "insert into absence (datedebut, nom, prenom, datefin, motif) values (?, ?, ?, ?, ?)";
+		String sql = "insert into absence (nom, prenom, datedebut, datefin, motif) values (?, ?, ?, ?, ?)";
 		ArrayList<Object> lesAbsences = new ArrayList<>();
 		lesAbsences.add(uneAbsence.getDatedebut());
 		lesAbsences.add(uneAbsence.getNom());
