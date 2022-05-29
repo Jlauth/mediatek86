@@ -22,6 +22,7 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 
@@ -124,7 +125,6 @@ public class AbsenceFrame extends JFrame {
 					Date DateDebut = sdf.format(dtcDebut).toString();
 					Date DateFin = sdf.format(dtcFin);*/
 				
-					
 					Vector<String> v = new Vector<>();
 					v.add(txtNom.getText());
 					v.add(txtPrenom.getText());
@@ -161,6 +161,30 @@ public class AbsenceFrame extends JFrame {
 		getContentPane().add(btnModifier);
 		
 		JButton btnSupprimer = new JButton("Supprimer");
+		btnSupprimer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+			        // establish connection  
+			        Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mediatek86", "responsable", "MediaTek86!");  
+			        Statement statement = con.createStatement();  
+			        statement.executeUpdate("DELETE FROM absence VALUES('" + txtNom.getText() + "',"
+			        		+ "'" + txtPrenom.getText() + "','" + dtcDebut.getDate().toString() + "',"
+			        		+ "'" + dtcFin.getDate().toString() + "','" + cmbMotif.getSelectedItem().toString() +"')");  
+			        JOptionPane.showMessageDialog(null, "Record deleted...");  
+			        statement.close();  
+			        con.close();  
+			        Referesh(); //Calling Referesh() method  
+			    } catch (Exception el) {  
+			        JOptionPane.showMessageDialog(null, el);  
+			    }  
+			}
+			@SuppressWarnings("unchecked")
+			private void Referesh() {
+					    txtNom.setText("");  
+					    txtPrenom.setText("");  
+			}
+		});
+		
 		btnSupprimer.setBounds(10, 342, 97, 34);
 		getContentPane().add(btnSupprimer);
 		

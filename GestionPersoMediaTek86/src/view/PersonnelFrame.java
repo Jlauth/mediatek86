@@ -3,6 +3,9 @@ package view;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -143,25 +146,36 @@ public class PersonnelFrame extends JFrame {
 			        JOptionPane.showMessageDialog(null, e1);  
 			    }  
 			}
-
-			private void Referesh() {
-				    txtNom.setText("");  
-				    txtPrenom.setText("");  
-				    txtTel.setText(""); 
-				    txtMail.setText(""); 
-			}
 		});
 		btnAjouter.setBounds(186, 199, 82, 29);
 		getContentPane().add(btnAjouter);
 
+		table.addMouseListener((MouseListener) new MouseAdapter(){
+	        
+	        @Override
+	        public void mouseClicked(MouseEvent e){
+	            
+	            // i = the index of the selected row
+	            int i = table.getSelectedRow();
+	            
+	            txtNom.setText(model.getValueAt(i, 0).toString());
+	            txtPrenom.setText(model.getValueAt(i, 1).toString());
+	            txtTel.setText(model.getValueAt(i, 2).toString());
+	            txtMail.setText(model.getValueAt(i, 3).toString());
+	            cmbService.setSelectedItem(model.getValueAt(i, 4).toString());
+	        }
+	        
+	    });
+		
 		JButton btnSupprimer = new JButton("Supprimer");
 		btnSupprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				try {
 			        // establish connection  
 			        Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mediatek86", "responsable", "MediaTek86!");  
 			        Statement statement = con.createStatement();  
-			        statement.executeUpdate("DELETE FROM personnel VALUES('" + txtNom.getText() + "','" + txtPrenom.getText() + "','" + txtTel.getText() + "','" + txtMail.getText() + "','" + cmbService.getSelectedItem().toString() +"')");  
+			        statement.executeUpdate("DELETE FROM personnel(nom, prenom, tel, mail, service) VALUES('" + txtNom.getText() + "','" + txtPrenom.getText() + "','" + txtTel.getText() + "','" + txtMail.getText() + "','" + cmbService.getSelectedItem().toString() +"')");  
 			        JOptionPane.showMessageDialog(null, "Record deleted...");  
 			        statement.close();  
 			        con.close();  
@@ -183,6 +197,20 @@ public class PersonnelFrame extends JFrame {
 		JButton btnModifier = new JButton("Modifier");
 		btnModifier.setBounds(186, 239, 82, 29);
 		getContentPane().add(btnModifier);
+		
+		JButton btnViderCases = new JButton("Effacer");
+		btnViderCases.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				    txtNom.setText("");  
+				    txtPrenom.setText("");  
+				    txtTel.setText(""); 
+				    txtMail.setText(""); 
+				    cmbService.setSelectedItem(1);
+				}
+		});
+		btnViderCases.setBounds(156, 123, 84, 54);
+		getContentPane().add(btnViderCases);
+		
 
 		JButton btnQuitter = new JButton("Quitter");
 		btnQuitter.setBounds(186, 381, 82, 29);
