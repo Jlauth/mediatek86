@@ -1,6 +1,7 @@
 package model;
 
 public class Personnel {
+	private int idperso;
 	private String nom;
 	private String prenom;
 	private String tel;
@@ -66,6 +67,18 @@ public class Personnel {
 	 */
 	public void setService(String service) {
 		this.service = service;
+	}
+	/**
+	 * @return the idperso
+	 */
+	public int getIdperso() {
+		return idperso;
+	}
+	/**
+	 * @param idperso the idperso to set
+	 */
+	public void setIdperso(int idperso) {
+		this.idperso = idperso;
 	}
 	
 }

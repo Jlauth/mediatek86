@@ -36,9 +36,9 @@ public class PersonnelFrame extends JFrame {
 	private JTextField txtPrenom;
 	private JTextField txtTel;
 	private JTextField txtMail;
-
+	
 	public PersonnelFrame() {
-
+		
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setSize(734, 485);
@@ -49,8 +49,8 @@ public class PersonnelFrame extends JFrame {
 		panel.add(label);
 
 		/**
-		 * Initialisation du JTable Récupération via la DB et initialisation des données
-		 * du personnel
+		 * Initialisation du JTable Récupération via la DB 
+		 * Iinitialisation des données du personnel
 		 */
 		table = new JTable();
 		Object[][] body = new Object[(DataAccess.recupPersonnels()).size()][5];
@@ -66,6 +66,7 @@ public class PersonnelFrame extends JFrame {
 		}
 		table.setModel(new DefaultTableModel(body, header));
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		
 		
 		JScrollPane scrollPane = new JScrollPane(table);
 		getContentPane().setLayout(null);
@@ -91,7 +92,7 @@ public class PersonnelFrame extends JFrame {
 		JLabel lblService = new JLabel("Service");
 		lblService.setBounds(34, 157, 76, 14);
 		getContentPane().add(lblService);
-
+		
 		txtNom = new JTextField();
 		txtNom.setBounds(120, 51, 148, 20);
 		txtNom.setColumns(10);
@@ -113,7 +114,7 @@ public class PersonnelFrame extends JFrame {
 		getContentPane().add(txtMail);
 
 		String[] service = {"administratif", "médiation culturelle", "prêt"};
-		JComboBox<Object> cmbService = new JComboBox<>(service);
+		JComboBox<String> cmbService = new JComboBox<>(service);
 		cmbService.setBounds(120, 153, 148, 22);
 		getContentPane().add(cmbService);
 		
@@ -121,7 +122,7 @@ public class PersonnelFrame extends JFrame {
 		btnAjouter.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try { 
+				try {
 					Vector<String> v = new Vector<>();
 					v.add(txtNom.getText());
 					v.add(txtPrenom.getText());
@@ -129,10 +130,11 @@ public class PersonnelFrame extends JFrame {
 					v.add(txtMail.getText());
 					v.add(cmbService.getSelectedItem().toString());
 					model.addRow(v);
-			        // establish connection  
+				
+			        // establish connection
 			        Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mediatek86", "responsable", "MediaTek86!");  
 			        Statement statement = con.createStatement();  
-			        statement.executeUpdate("INSERT INTO personnel VALUES(" + txtNom.getText() + ",'" + txtPrenom.getText() + "'," + txtTel.getText() + ",'" + txtMail.getText() + ", " + cmbService.getSelectedItem().toString() +")");  
+			        statement.executeUpdate("INSERT INTO personnel(nom, prenom, tel, mail, service) VALUES('" + txtNom.getText() + "','" + txtPrenom.getText() + "','" + txtTel.getText() + "','" + txtMail.getText() + "','" + cmbService.getSelectedItem().toString() +"')");  
 			        JOptionPane.showMessageDialog(null, "Record inserted...");  
 			        statement.close();  
 			        con.close();  
@@ -143,18 +145,38 @@ public class PersonnelFrame extends JFrame {
 			}
 
 			private void Referesh() {
-				{  
 				    txtNom.setText("");  
 				    txtPrenom.setText("");  
 				    txtTel.setText(""); 
-				    txtMail.setText("");  
-				}  
+				    txtMail.setText(""); 
 			}
 		});
 		btnAjouter.setBounds(186, 199, 82, 29);
 		getContentPane().add(btnAjouter);
 
 		JButton btnSupprimer = new JButton("Supprimer");
+		btnSupprimer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+			        // establish connection  
+			        Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mediatek86", "responsable", "MediaTek86!");  
+			        Statement statement = con.createStatement();  
+			        statement.executeUpdate("DELETE FROM personnel VALUES('" + txtNom.getText() + "','" + txtPrenom.getText() + "','" + txtTel.getText() + "','" + txtMail.getText() + "','" + cmbService.getSelectedItem().toString() +"')");  
+			        JOptionPane.showMessageDialog(null, "Record deleted...");  
+			        statement.close();  
+			        con.close();  
+			        Referesh(); //Calling Referesh() method  
+			    } catch (Exception el) {  
+			        JOptionPane.showMessageDialog(null, el);  
+			    }  
+			}
+			private void Referesh() {
+					    txtNom.setText("");  
+					    txtPrenom.setText("");  
+					    txtTel.setText(""); 
+					    txtMail.setText("");  
+			}		
+		});
 		btnSupprimer.setBounds(186, 279, 82, 29);
 		getContentPane().add(btnSupprimer);
 
@@ -163,6 +185,7 @@ public class PersonnelFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
+		
 		btnMaj.setBounds(34, 381, 99, 29);
 		getContentPane().add(btnMaj);
 
