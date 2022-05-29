@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
@@ -137,8 +138,7 @@ public class PersonnelFrame extends JFrame {
 			        // establish connection
 			        Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mediatek86", "responsable", "MediaTek86!");  
 			        Statement statement = con.createStatement();  
-			        statement.executeUpdate("INSERT INTO personnel(nom, prenom, tel, mail, service) VALUES('" + txtNom.getText() + "',"
-			        		+ "'" + txtPrenom.getText() + "','" + txtTel.getText() + "',"
+			        statement.executeUpdate("INSERT INTO personnel(nom, prenom, tel, mail, service) VALUES('" + txtNom.getText() + "'," + txtPrenom.getText() + "','" + txtTel.getText() + "',"
 			        		+ "'" + txtMail.getText() + "','" + cmbService.getSelectedItem().toString() +"')");  
 			        JOptionPane.showMessageDialog(null, "Record inserted...");  
 			        statement.close();  
@@ -151,15 +151,12 @@ public class PersonnelFrame extends JFrame {
 		});
 		btnAjouter.setBounds(184, 260, 82, 29);
 		getContentPane().add(btnAjouter);
-
-		table.addMouseListener((MouseListener) new MouseAdapter(){
-	        
+		
+		table.addMouseListener((MouseListener) new MouseAdapter(){  
 	        @Override
 	        public void mouseClicked(MouseEvent e){
-	            
 	            // i = the index of the selected row
 	            int i = table.getSelectedRow();
-	            
 	            txtNom.setText(model.getValueAt(i, 0).toString());
 	            txtPrenom.setText(model.getValueAt(i, 1).toString());
 	            txtTel.setText(model.getValueAt(i, 2).toString());
@@ -169,30 +166,29 @@ public class PersonnelFrame extends JFrame {
 	        
 	    });
 		
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JButton btnSupprimer = new JButton("Supprimer");
 		btnSupprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				try {
-			        // establish connection  
-			        Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mediatek86", "responsable", "MediaTek86!");  
-			        Statement statement = con.createStatement();  
-			        statement.executeUpdate("DELETE FROM personnel(nom, prenom, tel, mail, service) VALUES('" + txtNom.getText() + "','" + txtPrenom.getText() + "','" + txtTel.getText() + "','" + txtMail.getText() + "','" + cmbService.getSelectedItem().toString() +"')");  
-			        JOptionPane.showMessageDialog(null, "Record deleted...");  
-			        statement.close();  
-			        con.close();  
-			        Referesh(); //Calling Referesh() method  
-			    } catch (Exception el) {  
-			        JOptionPane.showMessageDialog(null, el);  
-			    }  
-			}
-			private void Referesh() {
-					    txtNom.setText("");  
-					    txtPrenom.setText("");  
-					    txtTel.setText(""); 
-					    txtMail.setText("");  
-			}		
-		});
+					// check the selected row first
+					if(table.getSelectedRow() != -1) {
+						// remove the selected row from the table model
+						model.removeRow(table.getSelectedRow());
+						JOptionPane.showMessageDialog(null, "Deleted successfully");
+					}		
+					// establish connection  
+					Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mediatek86", "responsable", "MediaTek86!");  
+					Statement statement = con.createStatement();  
+					statement.executeUpdate("DELETE personnel FROM personnel WHERE tableykey.1 =?");
+					JOptionPane.showMessageDialog(null, "Record deleted...");  
+					statement.close();  
+					con.close();    
+			    	} catch (Exception el) {  
+			    		JOptionPane.showMessageDialog(null, el);  
+			    	} 
+				}
+		});		
 		btnSupprimer.setBounds(184, 341, 82, 29);
 		getContentPane().add(btnSupprimer);
 
@@ -224,7 +220,7 @@ public class PersonnelFrame extends JFrame {
 				    txtPrenom.setText("");  
 				    txtTel.setText(""); 
 				    txtMail.setText(""); 
-				    cmbService.setSelectedItem(1);
+				    cmbService.setSelectedItem(null);
 				}
 		});
 		btnViderCases.setBounds(184, 381, 84, 29);
