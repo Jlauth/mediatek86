@@ -17,8 +17,10 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
@@ -117,16 +119,19 @@ public class AbsenceFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-YYYY");
-					String DateDebut = dateFormat.format(dtcDebut.getDate());
-					String DateFin = dateFormat.format(dtcFin.getDate());
-					DefaultTableModel model = (DefaultTableModel) tableAbs.getModel();
+					/**java.util.Date dtcDebut = new java.util.Date();
+					java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy");
+					Date DateDebut = sdf.format(dtcDebut).toString();
+					Date DateFin = sdf.format(dtcFin);*/
+				
+					
 					Vector<String> v = new Vector<>();
 					v.add(txtNom.getText());
 					v.add(txtPrenom.getText());
-					v.add(DateDebut);
-					v.add(DateFin);
+					v.add(dtcDebut.getDate().toString());
+					v.add(dtcFin.getDate().toString());
 					v.add(cmbMotif.getSelectedItem().toString());
+					DefaultTableModel model = (DefaultTableModel) tableAbs.getModel();
 					model.addRow(v);
 				
 					// establish connection
