@@ -77,48 +77,48 @@ public class PersonnelFrame extends JFrame {
 		getContentPane().add(scrollPane);
 
 		JLabel lblNom = new JLabel("Nom");
-		lblNom.setBounds(34, 54, 76, 14);
+		lblNom.setBounds(34, 88, 76, 14);
 		getContentPane().add(lblNom);
 
 		JLabel lblPrenom = new JLabel("Prenom");
-		lblPrenom.setBounds(34, 82, 76, 14);
+		lblPrenom.setBounds(34, 116, 76, 14);
 		getContentPane().add(lblPrenom);
 
 		JLabel lblTel = new JLabel("Tel");
-		lblTel.setBounds(34, 107, 76, 14);
+		lblTel.setBounds(34, 141, 76, 14);
 		getContentPane().add(lblTel);
 
 		JLabel lblMail = new JLabel("Mail");
-		lblMail.setBounds(34, 132, 76, 14);
+		lblMail.setBounds(34, 166, 76, 14);
 		getContentPane().add(lblMail);
 
 		JLabel lblService = new JLabel("Service");
-		lblService.setBounds(34, 157, 76, 14);
+		lblService.setBounds(34, 191, 76, 14);
 		getContentPane().add(lblService);
 		
 		txtNom = new JTextField();
-		txtNom.setBounds(120, 51, 148, 20);
+		txtNom.setBounds(120, 85, 148, 20);
 		txtNom.setColumns(10);
 		getContentPane().add(txtNom);
 
 		txtPrenom = new JTextField();
 		txtPrenom.setColumns(10);
-		txtPrenom.setBounds(120, 79, 148, 20);
+		txtPrenom.setBounds(120, 113, 148, 20);
 		getContentPane().add(txtPrenom);
 
 		txtTel = new JTextField();
 		txtTel.setColumns(10);
-		txtTel.setBounds(120, 104, 148, 20);
+		txtTel.setBounds(120, 138, 148, 20);
 		getContentPane().add(txtTel);
 
 		txtMail = new JTextField();
 		txtMail.setColumns(10);
-		txtMail.setBounds(120, 129, 148, 20);
+		txtMail.setBounds(120, 163, 148, 20);
 		getContentPane().add(txtMail);
 
 		String[] service = {"Administratif", "Médiation culturelle", "Prêt"};
-		JComboBox<String> cmbService = new JComboBox<>(service);
-		cmbService.setBounds(120, 153, 148, 22);
+		JComboBox<Object> cmbService = new JComboBox<>(service);
+		cmbService.setBounds(120, 187, 148, 22);
 		getContentPane().add(cmbService);
 		
 		JButton btnAjouter = new JButton("Ajouter");
@@ -137,7 +137,9 @@ public class PersonnelFrame extends JFrame {
 			        // establish connection
 			        Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mediatek86", "responsable", "MediaTek86!");  
 			        Statement statement = con.createStatement();  
-			        statement.executeUpdate("INSERT INTO personnel(nom, prenom, tel, mail, service) VALUES('" + txtNom.getText() + "','" + txtPrenom.getText() + "','" + txtTel.getText() + "','" + txtMail.getText() + "','" + cmbService.getSelectedItem().toString() +"')");  
+			        statement.executeUpdate("INSERT INTO personnel(nom, prenom, tel, mail, service) VALUES('" + txtNom.getText() + "',"
+			        		+ "'" + txtPrenom.getText() + "','" + txtTel.getText() + "',"
+			        		+ "'" + txtMail.getText() + "','" + cmbService.getSelectedItem().toString() +"')");  
 			        JOptionPane.showMessageDialog(null, "Record inserted...");  
 			        statement.close();  
 			        con.close();  
@@ -147,7 +149,7 @@ public class PersonnelFrame extends JFrame {
 			    }  
 			}
 		});
-		btnAjouter.setBounds(186, 199, 82, 29);
+		btnAjouter.setBounds(184, 260, 82, 29);
 		getContentPane().add(btnAjouter);
 
 		table.addMouseListener((MouseListener) new MouseAdapter(){
@@ -191,11 +193,28 @@ public class PersonnelFrame extends JFrame {
 					    txtMail.setText("");  
 			}		
 		});
-		btnSupprimer.setBounds(186, 279, 82, 29);
+		btnSupprimer.setBounds(184, 341, 82, 29);
 		getContentPane().add(btnSupprimer);
 
 		JButton btnModifier = new JButton("Modifier");
-		btnModifier.setBounds(186, 239, 82, 29);
+		btnModifier.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // i = the index of the selected row
+                int i = table.getSelectedRow();
+                if(i >= 0) 
+                {
+                   model.setValueAt(txtNom.getText(), i, 0);
+                   model.setValueAt(txtPrenom.getText(), i, 1);
+                   model.setValueAt(txtTel.getText(), i, 2);
+                   model.setValueAt(txtMail.getText(), i, 3);
+                }
+                else{
+                    System.out.println("Update Error");
+                }
+            }
+        });
+		btnModifier.setBounds(184, 300, 82, 29);
 		getContentPane().add(btnModifier);
 		
 		JButton btnViderCases = new JButton("Effacer");
@@ -208,12 +227,12 @@ public class PersonnelFrame extends JFrame {
 				    cmbService.setSelectedItem(1);
 				}
 		});
-		btnViderCases.setBounds(156, 123, 84, 54);
+		btnViderCases.setBounds(184, 381, 84, 29);
 		getContentPane().add(btnViderCases);
 		
 
 		JButton btnQuitter = new JButton("Quitter");
-		btnQuitter.setBounds(186, 381, 82, 29);
+		btnQuitter.setBounds(34, 381, 82, 29);
 		getContentPane().add(btnQuitter);
 
 		JButton btnAbsence = new JButton("Absence");
@@ -226,7 +245,7 @@ public class PersonnelFrame extends JFrame {
 				}
 			}
 		});
-		btnAbsence.setBounds(34, 279, 82, 29);
+		btnAbsence.setBounds(34, 341, 82, 29);
 		getContentPane().add(btnAbsence);
 
 	}
