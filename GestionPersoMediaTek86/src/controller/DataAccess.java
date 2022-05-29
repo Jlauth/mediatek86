@@ -29,9 +29,9 @@ public class DataAccess {
 	public static void addAbsence(Absence uneAbsence) {
 		String sql = "insert into absence (nom, prenom, datedebut, datefin, motif) values (?, ?, ?, ?, ?)";
 		ArrayList<Object> lesAbsences = new ArrayList<>();
-		lesAbsences.add(uneAbsence.getDatedebut());
 		lesAbsences.add(uneAbsence.getNom());
 		lesAbsences.add(uneAbsence.getPrenom());
+		lesAbsences.add(uneAbsence.getDatedebut());
 		lesAbsences.add(uneAbsence.getDatefin());
 		lesAbsences.add(uneAbsence.getMotif());
 		DBConnection cn = DBConnection.getInstance(url, login, pwd);
@@ -63,10 +63,10 @@ public class DataAccess {
 		cn.reqSelect(sql, null);
 		while (cn.read()) {
 			Absence uneAbsence = new Absence();
-			uneAbsence.setDatedebut((Date)cn.field("Date début"));
-			uneAbsence.setDatefin((Date)cn.field("Date fin"));
 			uneAbsence.setNom((String)cn.field("Nom"));
 			uneAbsence.setPrenom((String)cn.field("Prenom"));
+			uneAbsence.setDatedebut((Date)cn.field("Date début"));
+			uneAbsence.setDatefin((Date)cn.field("Date fin"));
 			uneAbsence.setMotif((String)cn.field("Motif"));
 			lesAbsences.add(uneAbsence);
 		}

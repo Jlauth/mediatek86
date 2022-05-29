@@ -35,6 +35,7 @@ public class Control {
 			System.out.println(uneAbsence.getDatedebut()+" "+
 				uneAbsence.getNom()+" "+
 				uneAbsence.getPrenom()+" "+
+				uneAbsence.getDatedebut()+" "+
 				uneAbsence.getDatefin()+" "+
 				uneAbsence.getMotif());
 			}

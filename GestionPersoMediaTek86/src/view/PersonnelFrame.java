@@ -113,7 +113,7 @@ public class PersonnelFrame extends JFrame {
 		txtMail.setBounds(120, 129, 148, 20);
 		getContentPane().add(txtMail);
 
-		String[] service = {"administratif", "médiation culturelle", "prêt"};
+		String[] service = {"Administratif", "Médiation culturelle", "Prêt"};
 		JComboBox<String> cmbService = new JComboBox<>(service);
 		cmbService.setBounds(120, 153, 148, 22);
 		getContentPane().add(cmbService);
@@ -138,7 +138,7 @@ public class PersonnelFrame extends JFrame {
 			        JOptionPane.showMessageDialog(null, "Record inserted...");  
 			        statement.close();  
 			        con.close();  
-			        Referesh(); //Calling Referesh() method  
+			        // Referesh(); //Calling Referesh() method  
 			    } catch (Exception e1) {  
 			        JOptionPane.showMessageDialog(null, e1);  
 			    }  
@@ -179,15 +179,6 @@ public class PersonnelFrame extends JFrame {
 		});
 		btnSupprimer.setBounds(186, 279, 82, 29);
 		getContentPane().add(btnSupprimer);
-
-		JButton btnMaj = new JButton("Mise à jour");
-		btnMaj.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		
-		btnMaj.setBounds(34, 381, 99, 29);
-		getContentPane().add(btnMaj);
 
 		JButton btnModifier = new JButton("Modifier");
 		btnModifier.setBounds(186, 239, 82, 29);

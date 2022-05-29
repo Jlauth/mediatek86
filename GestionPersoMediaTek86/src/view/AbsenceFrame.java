@@ -3,6 +3,7 @@ package view;
 import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -15,6 +16,10 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 
@@ -39,7 +44,7 @@ public class AbsenceFrame extends JFrame {
 	    panel.setBounds(359, 30, 414, 24);
 	    panel.setBackground(Color.GRAY);
 	    label.setForeground(Color.white);
-	    panel.add(label);	         
+	    panel.add(label);
 	    
 	    /**
 	     * Initialisation du JTable
@@ -111,15 +116,32 @@ public class AbsenceFrame extends JFrame {
 		btnAjouter.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Vector<String> v = new Vector<String>();
-				v.add(txtNom.getText());
-				v.add(txtPrenom.getText());
-				v.add(dtcDebut.getDate().toString());
-				v.add(dtcFin.getDate().toString());
-				v.add(cmbMotif.getSelectedItem().toString());
+				try {
+					SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-YYYY");
+					String DateDebut = dateFormat.format(dtcDebut.getDate());
+					String DateFin = dateFormat.format(dtcFin.getDate());
+					DefaultTableModel model = (DefaultTableModel) tableAbs.getModel();
+					Vector<String> v = new Vector<>();
+					v.add(txtNom.getText());
+					v.add(txtPrenom.getText());
+					v.add(DateDebut);
+					v.add(DateFin);
+					v.add(cmbMotif.getSelectedItem().toString());
+					model.addRow(v);
 				
-				DefaultTableModel dt = (DefaultTableModel) tableAbs.getModel();
-				dt.addRow(v);
+					// establish connection
+					Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mediatek86", "responsable", "MediaTek86!");  
+					Statement statement = con.createStatement();  
+					statement.executeUpdate("INSERT INTO absence(nom, prenom, datedebut, datefin, motif) VALUES('" + txtNom.getText() + "',"
+									+ "'" + txtPrenom.getText() + "','" + dtcDebut.getDate().toString() + "','" + dtcFin.getDate().toString() + "',"
+									+ "'" + cmbMotif.getSelectedItem().toString() +"')");  
+					JOptionPane.showMessageDialog(null, "Record inserted...");  
+					statement.close();  
+					con.close();  
+					// Referesh(); //Calling Referesh() method  
+				} catch (Exception e1) {  
+					JOptionPane.showMessageDialog(null, e1);  
+				}
 			}
 		});
 		btnAjouter.setBounds(10, 252, 97, 34);
