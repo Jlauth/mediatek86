@@ -17,12 +17,9 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.Statement;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 
@@ -36,7 +33,9 @@ public class AbsenceFrame extends JFrame {
     JLabel label = new JLabel("Liste des absences");
 	JTable tableAbs = null;
 	private JTextField txtNom;
-	private JTextField txtPrenom;
+	private JTextField txtPrenom;   
+	
+	
 	
 	public AbsenceFrame() {
 	
@@ -48,7 +47,7 @@ public class AbsenceFrame extends JFrame {
 	    panel.setBackground(Color.GRAY);
 	    label.setForeground(Color.white);
 	    panel.add(label);
-	    
+
 	    /**
 	     * Initialisation du JTable
 	     * Récupération via la DB et initialisation des données du personnel
@@ -120,11 +119,6 @@ public class AbsenceFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					/**java.util.Date dtcDebut = new java.util.Date();
-					java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy");
-					Date DateDebut = sdf.format(dtcDebut).toString();
-					Date DateFin = sdf.format(dtcFin);*/
-				
 					Vector<String> v = new Vector<>();
 					v.add(txtNom.getText());
 					v.add(txtPrenom.getText());
@@ -133,11 +127,15 @@ public class AbsenceFrame extends JFrame {
 					v.add(cmbMotif.getSelectedItem().toString());
 					DefaultTableModel model = (DefaultTableModel) tableAbs.getModel();
 					model.addRow(v);
-				
+					
+
+					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+					String startDateString = dateFormat.format(dtcDebut.getDate());
+					String endDateString = dateFormat.format(dtcFin.getDate());
 					// establish connection
 					Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mediatek86", "responsable", "MediaTek86!");  
 					Statement statement = con.createStatement();  
-					statement.executeUpdate("INSERT INTO absence(nom, prenom, datedebut, datefin, motif) VALUES('" + txtNom.getText() + "','" + txtPrenom.getText() + "','" + dtcDebut.getDate().toString() + "','" + dtcFin.getDate().toString() + "',"
+					statement.executeUpdate("INSERT INTO absence(nom, prenom, datedebut, datefin, motif) VALUES('" + txtNom.getText() + "','" + txtPrenom.getText() + "','" + startDateString + "','" + endDateString + "',"
 									+ "'" + cmbMotif.getSelectedItem().toString() +"')");  
 					JOptionPane.showMessageDialog(null, "Record inserted...");  
 					statement.close();  
@@ -172,15 +170,9 @@ public class AbsenceFrame extends JFrame {
 			        JOptionPane.showMessageDialog(null, "Record deleted...");  
 			        statement.close();  
 			        con.close();  
-			        Referesh(); //Calling Referesh() method  
 			    } catch (Exception el) {  
 			        JOptionPane.showMessageDialog(null, el);  
 			    }  
-			}
-			@SuppressWarnings("unchecked")
-			private void Referesh() {
-					    txtNom.setText("");  
-					    txtPrenom.setText("");  
 			}
 		});
 		

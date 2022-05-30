@@ -8,17 +8,6 @@ import view.LoginFrame;
 
 public class Control {
 	
-	public static void sauverEnBase() {
-		// construction du personnel
-		Personnel unPersonnel = new Personnel();
-		unPersonnel.setNom("");
-		unPersonnel.setPrenom("");
-		unPersonnel.setTel("");
-		unPersonnel.setMail("");
-		unPersonnel.setService("");
-		// demande d'ajout du personnel
-	}
-
 	
 	public static void lireEnBase() {
 		ArrayList<Personnel> lesPersonnels = (ArrayList<Personnel>) DataAccess.recupPersonnels();
@@ -42,8 +31,7 @@ public class Control {
 	}
 		
 	public static void main(String[] args) {
-		//sauverEnBase();
-		//lireEnBase();
+		lireEnBase();
 		
 		new LoginFrame().setVisible(true);
 		}

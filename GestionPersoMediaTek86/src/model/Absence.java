@@ -3,11 +3,14 @@ package model;
 import java.sql.Date;
 
 public class Absence {
+	
+	
 	private Date datedebut;
 	private Date datefin;
 	private String nom;
 	private String prenom;
 	private String motif;
+
 	
 	/**
 	 * @return the datedebut
@@ -15,26 +18,32 @@ public class Absence {
 	public Date getDatedebut() {
 		return datedebut;
 	}
-	/**
-	 * @param datedebut the datedebut to set
-	 */
-	public void setDatedebut(Date datedebut) {
-		this.datedebut = datedebut;
-	}
+	
 	/**
 	 * @return the datefin
 	 */
 	public Date getDatefin() {
 		return datefin;
 	}
+	
 	/**
 	 * @param datefin the datefin to set
 	 */
+	
 	public void setDatefin(Date datefin) {
 		this.datefin = datefin;
 	}
+	
 	/**
-	 * @return the nom
+	 * @param datedebut the datedebut to set
+	 */
+	public void setDatedebut(Date datedebut) {
+		this.datedebut = datedebut;
+	}
+	
+	/**
+	 * 
+	 * @return
 	 */
 	public String getNom() {
 		return nom;
@@ -69,4 +78,5 @@ public class Absence {
 	public void setMotif(String motif) {
 		this.motif = motif;
 	}
+	
 }
