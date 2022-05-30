@@ -137,8 +137,7 @@ public class AbsenceFrame extends JFrame {
 					// establish connection
 					Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mediatek86", "responsable", "MediaTek86!");  
 					Statement statement = con.createStatement();  
-					statement.executeUpdate("INSERT INTO absence(nom, prenom, datedebut, datefin, motif) VALUES('" + txtNom.getText() + "',"
-									+ "'" + txtPrenom.getText() + "','" + dtcDebut.getDate().toString() + "','" + dtcFin.getDate().toString() + "',"
+					statement.executeUpdate("INSERT INTO absence(nom, prenom, datedebut, datefin, motif) VALUES('" + txtNom.getText() + "','" + txtPrenom.getText() + "','" + dtcDebut.getDate().toString() + "','" + dtcFin.getDate().toString() + "',"
 									+ "'" + cmbMotif.getSelectedItem().toString() +"')");  
 					JOptionPane.showMessageDialog(null, "Record inserted...");  
 					statement.close();  

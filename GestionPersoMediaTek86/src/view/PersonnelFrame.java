@@ -138,8 +138,7 @@ public class PersonnelFrame extends JFrame {
 			        // establish connection
 			        Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mediatek86", "responsable", "MediaTek86!");  
 			        Statement statement = con.createStatement();  
-			        statement.executeUpdate("INSERT INTO personnel(nom, prenom, tel, mail, service) VALUES('" + txtNom.getText() + "'," + txtPrenom.getText() + "','" + txtTel.getText() + "',"
-			        		+ "'" + txtMail.getText() + "','" + cmbService.getSelectedItem().toString() +"')");  
+			        statement.executeUpdate("INSERT INTO personnel(nom, prenom, tel, mail, service) VALUES('" + txtNom.getText() + "','" + txtPrenom.getText() + "','" + txtTel.getText() + "','" + txtMail.getText() + "','" + cmbService.getSelectedItem().toString() +"')");  
 			        JOptionPane.showMessageDialog(null, "Record inserted...");  
 			        statement.close();  
 			        con.close();  
@@ -173,17 +172,22 @@ public class PersonnelFrame extends JFrame {
 				try {
 					// check the selected row first
 					if(table.getSelectedRow() != -1) {
+						// save the selected row
+						int rowSelected = table.getSelectedRow();
+						String selected = model.getValueAt(rowSelected, 0).toString();
+						String delRow = "delete from personnel where nom='" + selected + "'";
 						// remove the selected row from the table model
 						model.removeRow(table.getSelectedRow());
 						JOptionPane.showMessageDialog(null, "Deleted successfully");
-					}		
-					// establish connection  
-					Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mediatek86", "responsable", "MediaTek86!");  
-					Statement statement = con.createStatement();  
-					statement.executeUpdate("DELETE personnel FROM personnel WHERE tableykey.1 =?");
-					JOptionPane.showMessageDialog(null, "Record deleted...");  
-					statement.close();  
-					con.close();    
+						// establish connection  
+						Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mediatek86", "responsable", "MediaTek86!");  
+						Statement statement = con.createStatement();  
+						// delete from DB
+						statement.executeUpdate(delRow);
+						JOptionPane.showMessageDialog(null, "Record deleted...");  
+						statement.close();  
+						con.close();
+						}
 			    	} catch (Exception el) {  
 			    		JOptionPane.showMessageDialog(null, el);  
 			    	} 
