@@ -31,8 +31,7 @@ public class Control {
 	}
 		
 	public static void main(String[] args) {
-		lireEnBase();
-		
+		lireEnBase();	
 		new LoginFrame().setVisible(true);
 		}
 	

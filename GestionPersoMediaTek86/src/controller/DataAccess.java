@@ -58,9 +58,10 @@ public class DataAccess {
 	 
 	public static List<Absence> recupAbsences() {
 		String sql = "select * from absence";
+		
 		ArrayList<Absence> lesAbsences = new ArrayList<>();
 		DBConnection cn = DBConnection.getInstance(url, login, pwd);
-		cn.reqSelect(sql, null);
+		cn.reqSelect(sql, null);	
 		while (cn.read()) {
 			Absence uneAbsence = new Absence();
 			uneAbsence.setNom((String)cn.field("Nom"));

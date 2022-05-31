@@ -1,27 +1,30 @@
 package view;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.util.Vector;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+
+import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
 
 import controller.DataAccess;
 import model.Absence;
-import com.toedter.calendar.JDateChooser;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.Vector;
-import java.awt.event.ActionEvent;
 
 public class AbsenceFrame extends JFrame {
 
@@ -29,13 +32,12 @@ public class AbsenceFrame extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	protected static final String String = null;
 	JPanel panel = new JPanel();
     JLabel label = new JLabel("Liste des absences");
-	JTable tableAbs = null;
+	JTable tableAbs;
 	private JTextField txtNom;
 	private JTextField txtPrenom;   
-	
-	
 	
 	public AbsenceFrame() {
 	
@@ -72,10 +74,12 @@ public class AbsenceFrame extends JFrame {
 		getContentPane().add(scrollPane);
 		
 		JDateChooser dtcDebut = new JDateChooser();
+		dtcDebut.setDateFormatString("dd/MM/yyyy");
 		dtcDebut.setBounds(155, 115, 115, 20);
 		getContentPane().add(dtcDebut);
 		
 		JDateChooser dtcFin = new JDateChooser();
+		dtcFin.setDateFormatString("dd/MM/yyyy");
 		dtcFin.setBounds(155, 146, 115, 20);
 		getContentPane().add(dtcFin);
 		
@@ -122,20 +126,17 @@ public class AbsenceFrame extends JFrame {
 					Vector<String> v = new Vector<>();
 					v.add(txtNom.getText());
 					v.add(txtPrenom.getText());
-					v.add(dtcDebut.getDate().toString());
-					v.add(dtcFin.getDate().toString());
+					v.add(((JTextField)dtcDebut.getDateEditor().getUiComponent()).getText());
+					v.add(((JTextField)dtcFin.getDateEditor().getUiComponent()).getText());
 					v.add(cmbMotif.getSelectedItem().toString());
 					DefaultTableModel model = (DefaultTableModel) tableAbs.getModel();
 					model.addRow(v);
 					
-
-					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-					String startDateString = dateFormat.format(dtcDebut.getDate());
-					String endDateString = dateFormat.format(dtcFin.getDate());
 					// establish connection
 					Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mediatek86", "responsable", "MediaTek86!");  
 					Statement statement = con.createStatement();  
-					statement.executeUpdate("INSERT INTO absence(nom, prenom, datedebut, datefin, motif) VALUES('" + txtNom.getText() + "','" + txtPrenom.getText() + "','" + startDateString + "','" + endDateString + "',"
+					statement.executeUpdate("INSERT INTO absence(nom, prenom, datedebut, datefin, motif) VALUES('" + txtNom.getText() + "','" + txtPrenom.getText() + "',"
+							+ "'" + ((JTextField)dtcDebut.getDateEditor().getUiComponent()).getText() + "','" + dtcFin.getDate().toString() + "',"
 									+ "'" + cmbMotif.getSelectedItem().toString() +"')");  
 					JOptionPane.showMessageDialog(null, "Record inserted...");  
 					statement.close();  

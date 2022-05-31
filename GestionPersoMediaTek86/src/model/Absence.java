@@ -10,7 +10,6 @@ public class Absence {
 	private String nom;
 	private String prenom;
 	private String motif;
-
 	
 	/**
 	 * @return the datedebut
@@ -78,5 +77,5 @@ public class Absence {
 	public void setMotif(String motif) {
 		this.motif = motif;
 	}
-	
+
 }
