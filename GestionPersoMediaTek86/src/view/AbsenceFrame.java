@@ -3,10 +3,13 @@ package view;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -18,11 +21,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import com.toedter.calendar.JDateChooser;
-import com.toedter.calendar.JTextFieldDateEditor;
-
 import controller.DataAccess;
 import model.Absence;
 
@@ -66,20 +68,21 @@ public class AbsenceFrame extends JFrame {
 		        body[i][4] = et.getMotif();
 		        i++;
 		}
-		getContentPane().setLayout(null);
 		tableAbs.setModel(new DefaultTableModel(body,header)); 
+		DefaultTableModel model = (DefaultTableModel) tableAbs.getModel();
 		
 		JScrollPane scrollPane = new JScrollPane(tableAbs);
+		getContentPane().setLayout(null);
 		scrollPane.setBounds(376, 11, 341, 361);
 		getContentPane().add(scrollPane);
 		
 		JDateChooser dtcDebut = new JDateChooser();
-		dtcDebut.setDateFormatString("dd/MM/yyyy");
+		dtcDebut.setDateFormatString("yyyy-MM-dd");
 		dtcDebut.setBounds(155, 115, 115, 20);
 		getContentPane().add(dtcDebut);
 		
 		JDateChooser dtcFin = new JDateChooser();
-		dtcFin.setDateFormatString("dd/MM/yyyy");
+		dtcFin.setDateFormatString("yyyy-MM-dd");
 		dtcFin.setBounds(155, 146, 115, 20);
 		getContentPane().add(dtcFin);
 		
@@ -136,7 +139,7 @@ public class AbsenceFrame extends JFrame {
 					Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mediatek86", "responsable", "MediaTek86!");  
 					Statement statement = con.createStatement();  
 					statement.executeUpdate("INSERT INTO absence(nom, prenom, datedebut, datefin, motif) VALUES('" + txtNom.getText() + "','" + txtPrenom.getText() + "',"
-							+ "'" + ((JTextField)dtcDebut.getDateEditor().getUiComponent()).getText() + "','" + dtcFin.getDate().toString() + "',"
+							+ "'" + ((JTextField)dtcDebut.getDateEditor().getUiComponent()).getText() + "','" + ((JTextField)dtcFin.getDateEditor().getUiComponent()).getText() + "',"
 									+ "'" + cmbMotif.getSelectedItem().toString() +"')");  
 					JOptionPane.showMessageDialog(null, "Record inserted...");  
 					statement.close();  
@@ -150,37 +153,82 @@ public class AbsenceFrame extends JFrame {
 		btnAjouter.setBounds(10, 252, 97, 34);
 		getContentPane().add(btnAjouter);
 		
-		JButton btnModifier = new JButton("Modifier");
-		btnModifier.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnModifier.setBounds(10, 297, 97, 34);
-		getContentPane().add(btnModifier);
+		tableAbs.addMouseListener((MouseListener) new MouseAdapter(){  
+	        @Override
+	        public void mouseClicked(MouseEvent e){
+	            // i = the index of the selected row
+	            int i = tableAbs.getSelectedRow();
+	            txtNom.setText(model.getValueAt(i, 0).toString());
+	            txtPrenom.setText(model.getValueAt(i, 1).toString());
+	            dtcDebut.setDate((Date)model.getValueAt(i, 2));
+	            dtcFin.setDate((Date) model.getValueAt(i, 3));
+	            cmbMotif.setSelectedItem(model.getValueAt(i, 4).toString());
+	        }
+	        
+	    });
 		
+		
+		tableAbs.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JButton btnSupprimer = new JButton("Supprimer");
 		btnSupprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-			        // establish connection  
-			        Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mediatek86", "responsable", "MediaTek86!");  
-			        Statement statement = con.createStatement();  
-			        statement.executeUpdate("DELETE FROM absence VALUES('" + txtNom.getText() + "',"
-			        		+ "'" + txtPrenom.getText() + "','" + dtcDebut.getDate().toString() + "',"
-			        		+ "'" + dtcFin.getDate().toString() + "','" + cmbMotif.getSelectedItem().toString() +"')");  
-			        JOptionPane.showMessageDialog(null, "Record deleted...");  
-			        statement.close();  
-			        con.close();  
+					// check the selected row first
+					if(tableAbs.getSelectedRow()!= -1) {
+						// save the selected row
+						int rowSelected = tableAbs.getSelectedRow();
+						String selected = model.getValueAt(rowSelected, 0).toString();
+						String delRow = "delete from personnel where nom='" + selected + "'";
+						// remove the selected row from the table model
+						model.removeRow(tableAbs.getSelectedRow());
+						JOptionPane.showMessageDialog(null, "Deleted successfully");
+						// establish connection  
+						Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mediatek86", "responsable", "MediaTek86!");  
+						Statement statement = con.createStatement();  
+						// delete from DB
+						statement.executeUpdate(delRow);
+						JOptionPane.showMessageDialog(null, "Record deleted...");  
+						statement.close();  
+						con.close();
+						}
 			    } catch (Exception el) {  
-			        JOptionPane.showMessageDialog(null, el);  
-			    }  
+			    		JOptionPane.showMessageDialog(null, el);  
+			    } 
 			}
 		});
 		
 		btnSupprimer.setBounds(10, 342, 97, 34);
 		getContentPane().add(btnSupprimer);
 		
+		JButton btnModifier = new JButton("Modifier");
+		btnModifier.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// i = the index of the selected row
+                int i = tableAbs.getSelectedRow();
+                if(i >= 0) 
+                {
+                   model.setValueAt(txtNom.getText(), i, 0);
+                   model.setValueAt(txtPrenom.getText(), i, 1);
+                   model.setValueAt(dtcDebut.getDate(), i, 2);
+                   model.setValueAt(dtcDebut.getDate(), i, 3);
+                }
+                else{
+                    System.out.println("Update Error");
+                }
+			}
+		});
+		btnModifier.setBounds(10, 297, 97, 34);
+		getContentPane().add(btnModifier);
+		
 		JButton btnEffacer = new JButton("Effacer");
+		btnEffacer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				    txtNom.setText("");  
+				    txtPrenom.setText("");   
+				    cmbMotif.setSelectedItem(null);
+				}
+		});
 		btnEffacer.setBounds(200, 252, 97, 34);
 		getContentPane().add(btnEffacer);
 		

@@ -70,8 +70,7 @@ public class PersonnelFrame extends JFrame {
 		}
 		table.setModel(new DefaultTableModel(body, header));
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
-		
-		
+			
 		JScrollPane scrollPane = new JScrollPane(table);
 		getContentPane().setLayout(null);
 		scrollPane.setBounds(299, 26, 396, 384);

@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 public class DBConnection {
@@ -48,16 +49,10 @@ public class DBConnection {
 		}
 	}
 	
-	public void reqSelect(String req, List<Object> lesPersos) {
+	public void reqSelect(String req) {
 		if(cn != null) {
 			try {
 				PreparedStatement pst = cn.prepareStatement(req);
-				if(lesPersos != null) {
-					int k=1;
-					for (Object perso : lesPersos) {
-						pst.setObject(k++, perso);
-					}
-				}
 				rs = pst.executeQuery();
 			}catch(SQLException e) {
 				System.out.println(e.getMessage());
@@ -93,6 +88,11 @@ public class DBConnection {
 				rs = null;
 			}
 		}
+	}
+
+	public Statement createStatement() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

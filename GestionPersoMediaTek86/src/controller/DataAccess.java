@@ -1,8 +1,16 @@
 package controller;
 
-import java.sql.Date;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+
+import com.toedter.calendar.JDateChooser;
 
 import model.Absence;
 import model.Personnel;
@@ -42,7 +50,7 @@ public class DataAccess {
 		String sql = "select * from personnel";
 		ArrayList<Personnel> lesPersonnels = new ArrayList<>();
 		DBConnection cn = DBConnection.getInstance(url, login, pwd);
-		cn.reqSelect(sql, null);
+		cn.reqSelect(sql);
 		while (cn.read()) {
 			Personnel unPersonnel = new Personnel();
 			unPersonnel.setNom((String)cn.field("Nom"));
@@ -58,20 +66,23 @@ public class DataAccess {
 	 
 	public static List<Absence> recupAbsences() {
 		String sql = "select * from absence";
-		
 		ArrayList<Absence> lesAbsences = new ArrayList<>();
 		DBConnection cn = DBConnection.getInstance(url, login, pwd);
-		cn.reqSelect(sql, null);	
+		cn.reqSelect(sql);	
 		while (cn.read()) {
 			Absence uneAbsence = new Absence();
 			uneAbsence.setNom((String)cn.field("Nom"));
 			uneAbsence.setPrenom((String)cn.field("Prenom"));
-			uneAbsence.setDatedebut((Date)cn.field("Date début"));
-			uneAbsence.setDatefin((Date)cn.field("Date fin"));
+			uneAbsence.setDatedebut((java.sql.Date)cn.field("Date début"));
+			uneAbsence.setDatefin((java.sql.Date)cn.field("Date fin"));
 			uneAbsence.setMotif((String)cn.field("Motif"));
 			lesAbsences.add(uneAbsence);
 		}
 		cn.close();
 		return lesAbsences;
 	}
+	
+	
+	
+
 }

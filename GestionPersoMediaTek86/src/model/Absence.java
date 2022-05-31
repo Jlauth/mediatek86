@@ -14,34 +14,33 @@ public class Absence {
 	/**
 	 * @return the datedebut
 	 */
-	public Date getDatedebut() {
+	public java.util.Date getDatedebut() {
 		return datedebut;
 	}
 	
 	/**
 	 * @return the datefin
 	 */
-	public Date getDatefin() {
+	public java.sql.Date getDatefin() {
 		return datefin;
 	}
 	
 	/**
-	 * @param datefin the datefin to set
+	 * @param string the datefin to set
 	 */
 	
-	public void setDatefin(Date datefin) {
+	public void setDatefin(java.sql.Date datefin) {
 		this.datefin = datefin;
 	}
 	
 	/**
-	 * @param datedebut the datedebut to set
+	 * @param string the datedebut to set
 	 */
 	public void setDatedebut(Date datedebut) {
 		this.datedebut = datedebut;
 	}
 	
 	/**
-	 * 
 	 * @return
 	 */
 	public String getNom() {
