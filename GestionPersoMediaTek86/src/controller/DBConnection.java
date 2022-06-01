@@ -7,11 +7,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Classe publique permettant la connexion à la DB et de s'y promener
+ * @author Jean
+ *
+ */
 public class DBConnection {
 	private static DBConnection instance = null;
 	private Connection cn = null;
 	private ResultSet rs = null;
 	
+	/**
+	 * Constructeur privé
+	 * @param url
+	 * @param login
+	 * @param pwd
+	 */
 	private DBConnection(String url, String login, String pwd) {
 		if(cn == null) {
 			try {
@@ -23,6 +34,13 @@ public class DBConnection {
 		}
 	}
 	
+	/**
+	 * On instancie le constructeur
+	 * @param url
+	 * @param login
+	 * @param pwd
+	 * @return
+	 */
 	public static DBConnection getInstance(String url, String login, String pwd) {
 		if (instance == null) {
 			instance = new DBConnection(url, login, pwd);
@@ -30,7 +48,11 @@ public class DBConnection {
 		return instance;
 	}
 	
-		
+	/**
+	 * A revoir cet été	
+	 * @param req
+	 * @param lesPersos
+	 */
 	public void reqUpdate(String req, List<Object> lesPersos) {
 		if(cn != null) {
 			try {
@@ -47,7 +69,10 @@ public class DBConnection {
 			}
 		}
 	}
-	
+	/**
+	 * A revoir cet été.
+	 * @param req
+	 */
 	public void reqSelect(String req) {
 		if(cn != null) {
 			try {
@@ -58,7 +83,7 @@ public class DBConnection {
 			}
 		}
 	}
-	
+	// à revoir, mall intégré
 	public boolean read() {
 		if(rs != null) {
 			try {
@@ -67,7 +92,7 @@ public class DBConnection {
 		}
 		return false;
 	}
-	
+	// à revoir, mall intégré
 	public Object field(String nameField) {
 		if(rs == null) {
 			return null;
@@ -78,7 +103,7 @@ public class DBConnection {
 		return null;
 		}
 	}
-	
+	// à revoir, mall intégré
 	public void close() {
 		if(rs != null) {
 			try {

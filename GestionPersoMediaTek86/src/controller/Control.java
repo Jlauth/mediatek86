@@ -6,6 +6,11 @@ import model.Absence;
 import model.Personnel;
 import view.LoginFrame;
 
+/**
+ * Classe publique Control qui gère l'initialisation de l'app
+ * @author Jean
+ *
+ */
 public class Control {
 	
 	

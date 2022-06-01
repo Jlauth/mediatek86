@@ -7,12 +7,24 @@ import model.Absence;
 import model.Personnel;
 import model.Responsable;
 
+/**
+ * Classe d'accès à la base de données
+ * @author Jean
+ *
+ */
 public class DataAccess {
+	
+	/**
+	 * Initialisation des données de connexion à la DB
+	 */
 	private static String url = "jdbc:mysql://localhost/mediatek86";
-	private static String login = "responsable";
+	private static String login = "responsableMDTK";
 	private static String pwd = "MediaTek86!";
 	
-	
+	/**
+	 * Ajout d'unPersonnel en DB via la DBConnection
+	 * @param unPersonnel ajouté via ses getters
+	 */
 	public static void addPersonnel(Personnel unPersonnel) {
 		String sql = "insert into personnel (nom, prenom, tel, mail, service) values (?, ?, ?, ?, ?)";
 		ArrayList<Object> lesPersos = new ArrayList<>();
@@ -25,7 +37,10 @@ public class DataAccess {
 		cn.reqUpdate(sql, lesPersos);
 	}
 	
-	
+	/**
+	 * Ajout d'une absence en DB via DBConnection
+	 * @param uneAbsence ajoutée via ses getters
+	 */
 	public static void addAbsence(Absence uneAbsence) {
 		String sql = "insert into absence (nom, prenom, datedebut, datefin, motif) values (?, ?, ?, ?, ?)";
 		ArrayList<Object> lesAbsences = new ArrayList<>();
@@ -38,6 +53,10 @@ public class DataAccess {
 		cn.reqUpdate(sql, lesAbsences);
 		}
 	
+	/**
+	 * Récupération des informations Personnel en DB
+	 * @return lesPersonnels sélectionnées en DB
+	 */
 	public static List<Personnel> recupPersonnels() {
 		String sql = "select * from personnel";
 		ArrayList<Personnel> lesPersonnels = new ArrayList<>();
@@ -56,6 +75,10 @@ public class DataAccess {
 		return lesPersonnels;
 		}
 	
+	/**
+	 * Récupération des absences en DB
+	 * @return lesAbsences récupérées
+	 */
 	public static List<Absence> recupAbsences() {
 		String sql = "select * from absence";
 		ArrayList<Absence> lesAbsences = new ArrayList<>();
@@ -74,6 +97,10 @@ public class DataAccess {
 		return lesAbsences;
 	}
 	
+	/**
+	 * Récupère les informations de connexion liées au responsable 
+	 * @return leResponsable
+	 */
 	public static List<Responsable> recupResponsable() {
 		String sql = "select * from responsable";
 		ArrayList<Responsable> leResponsable = new ArrayList<>();

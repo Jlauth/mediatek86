@@ -31,8 +31,10 @@ public class LoginFrame extends JFrame implements ActionListener {
     
   
     
-    /*---------2---------*/
-    //create objects for components
+    /**
+     * Initisalition des la classe LoginFrame
+     * Création des objets de la classe LoginFrame
+     */
     public LoginFrame() {
     	loginTextField = new JTextField();
     	loginTextField.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -56,8 +58,7 @@ public class LoginFrame extends JFrame implements ActionListener {
         
     }
  
-    /*---------3---------*/
-    //Place components at specified position
+    // placement des composants au bon positionnement
     public void setBounds() {
     	loginTextField.setBounds(151, 60, 160, 30);
         passwordField.setBounds(151, 101, 160, 30);
@@ -66,8 +67,7 @@ public class LoginFrame extends JFrame implements ActionListener {
         lblNewLabel_1.setBounds(70, 112, 69, 14);
     }
  
-    /*---------3---------*/
-    //Add components to Container
+    // ajout des composants dans le container
     public void addComponents() {
         container.add(loginTextField);
         container.add(passwordField);
@@ -77,14 +77,15 @@ public class LoginFrame extends JFrame implements ActionListener {
   
     }
  
-    /*---------4---------*/
-    //Add actionListener to components
+    // ajout ActionListener aux composants
     public void addActionListener() {
     	loginButton.addActionListener(this);
     }
  
-    /*---------5---------*/
-    //Perform actions based on events
+    /**
+     * Execute les actions via ActionEvent
+     * Récupération de la  classe Validation vérification champs remplis et corrects
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
     	 System.out.println("Event called");
@@ -102,7 +103,7 @@ public class LoginFrame extends JFrame implements ActionListener {
               }
               
               // check password provided by user with stored password in database
-              if (login.equalsIgnoreCase("responsable") && pwd.equalsIgnoreCase("MediaTek86!")) {
+              if (login.equalsIgnoreCase("responsableMDTK") && pwd.equalsIgnoreCase("MediaTek86!")) {
                   JOptionPane.showMessageDialog(null, "Vous êtes connecté");
                   dispose();
                   new PersonnelFrame().setVisible(true);
