@@ -14,6 +14,12 @@ import javax.swing.JTextField;
 import model.Validation;
 import java.awt.Font;
 
+/**
+ * Création de LoginFrame, gestion de la connexion des ayants droits
+ * Login, mot de passe et bouton de connexion
+ * @author Jean
+ *
+ */
 public class LoginFrame extends JFrame implements ActionListener {
 
 	/**

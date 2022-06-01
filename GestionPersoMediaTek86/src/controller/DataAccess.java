@@ -9,6 +9,7 @@ import model.Responsable;
 
 /**
  * Classe d'accès à la base de données
+ * Ajout et récupération de données
  * @author Jean
  *
  */

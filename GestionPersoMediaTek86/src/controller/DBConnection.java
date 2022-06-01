@@ -1,5 +1,11 @@
 package controller;
 
+/**
+ * Classe publique permettant la connexion à la DB
+ * Requête de sélection et de mise à jour
+ * @author Jean
+ *
+ */
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -7,11 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-/**
- * Classe publique permettant la connexion à la DB et de s'y promener
- * @author Jean
- *
- */
+
 public class DBConnection {
 	private static DBConnection instance = null;
 	private Connection cn = null;

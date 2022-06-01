@@ -1,5 +1,9 @@
 package model;
-
+/**
+ * Classe du responsable ayant accès à l'app
+ * @author Jean
+ *
+ */
 public class Responsable {
 	
 	/**

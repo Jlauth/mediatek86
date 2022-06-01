@@ -26,7 +26,12 @@ import javax.swing.table.DefaultTableModel;
 import controller.DataAccess;
 import model.Personnel;
 import java.awt.Font;
-
+/**
+ * Création de PersonnelFrame, gestion du personnel
+ * Identité ajoutable, modifiable et supprimable
+ * @author Jean
+ *
+ */
 public class PersonnelFrame extends JFrame {
 
 	/**

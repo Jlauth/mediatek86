@@ -1,5 +1,7 @@
 package controller;
-
+/**
+ * Controlleur de l'app comportant la Main Class
+ */
 import java.util.ArrayList;
 
 import model.Absence;

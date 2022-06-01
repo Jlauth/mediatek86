@@ -1,5 +1,9 @@
 package model;
-
+/**
+ * Classe Personnel, gestion de l'identité des salariés
+ * @author Jean
+ *
+ */
 public class Personnel {
 	
 	/**
