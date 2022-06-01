@@ -9,7 +9,6 @@ import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
-import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -25,7 +24,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import controller.DataAccess;
 import model.Absence;
-import model.Validation;
+import java.awt.Font;
 
 public class AbsenceFrame extends JFrame {
 
@@ -46,10 +45,10 @@ public class AbsenceFrame extends JFrame {
 	
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
-	    this.setSize(771,451);
+	    this.setSize(734,485);
 	    this.setTitle("Absences");
-	    panel.setBounds(359, 30, 414, 24);
-	    panel.setBackground(Color.GRAY);
+	    panel.setBounds(359, 30, 711, 250);
+	    panel.setBackground(Color.lightGray);
 	    label.setForeground(Color.white);
 	    panel.add(label);
 
@@ -77,56 +76,57 @@ public class AbsenceFrame extends JFrame {
 		
 		JScrollPane scrollPane = new JScrollPane(tableAbs);
 		getContentPane().setLayout(null);
-		scrollPane.setBounds(376, 11, 341, 361);
+		scrollPane.setBounds(299, 26, 396, 384);
 		getContentPane().add(scrollPane);
 		
 		txtNom = new JTextField();
-		txtNom.setBounds(155, 53, 115, 20);
+		txtNom.setBounds(120, 51, 148, 20);
 		getContentPane().add(txtNom);
 		txtNom.setColumns(10);
 		
 		txtPrenom = new JTextField();
 		txtPrenom.setColumns(10);
-		txtPrenom.setBounds(155, 84, 115, 20);
+		txtPrenom.setBounds(120, 79, 148, 20);
 		getContentPane().add(txtPrenom);	
 		
 		txtDebut =  new JTextField();
-		txtDebut.setBounds(155, 115, 115, 20);
+		txtDebut.setBounds(120, 104, 148, 20);
 		getContentPane().add(txtDebut);
 		txtDebut.setColumns(10);
 		
 		txtFin = new JTextField();
 		txtFin.setColumns(10);
-		txtFin.setBounds(155, 146, 115, 20);
+		txtFin.setBounds(120, 129, 148, 20);
 		getContentPane().add(txtFin);
      
 		
 		String[] motif = {"Congé parental", "Maladie", "Motif familial", "Vacances"};
 		JComboBox<Object> cmbMotif = new JComboBox<>(motif);
-		cmbMotif.setBounds(155, 177, 115, 22);
+		cmbMotif.setBounds(120, 157, 148, 22);
 		getContentPane().add(cmbMotif);
 		
 		JLabel lblNewLabel = new JLabel("Nom");
-		lblNewLabel.setBounds(42, 56, 79, 14);
+		lblNewLabel.setBounds(34, 54, 76, 14);
 		getContentPane().add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Prenom");
-		lblNewLabel_1.setBounds(42, 87, 79, 14);
+		lblNewLabel_1.setBounds(34, 82, 76, 14);
 		getContentPane().add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_2 = new JLabel("Début absence");
-		lblNewLabel_2.setBounds(42, 118, 79, 14);
+		JLabel lblNewLabel_2 = new JLabel("Début abs");
+		lblNewLabel_2.setBounds(34, 107, 76, 14);
 		getContentPane().add(lblNewLabel_2);
 		
-		JLabel lblNewLabel_3 = new JLabel("Fin absence");
-		lblNewLabel_3.setBounds(42, 149, 79, 14);
+		JLabel lblNewLabel_3 = new JLabel("Fin abs");
+		lblNewLabel_3.setBounds(34, 132, 76, 14);
 		getContentPane().add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_3_1 = new JLabel("Motif");
-		lblNewLabel_3_1.setBounds(42, 181, 79, 14);
+		lblNewLabel_3_1.setBounds(34, 161, 76, 14);
 		getContentPane().add(lblNewLabel_3_1);
 		
 		JButton btnAjouter = new JButton("Ajouter");
+		btnAjouter.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnAjouter.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -154,7 +154,7 @@ public class AbsenceFrame extends JFrame {
 				}
 			}
 		});
-		btnAjouter.setBounds(246, 252, 97, 34);
+		btnAjouter.setBounds(34, 223, 100, 35);
 		getContentPane().add(btnAjouter);
 		
 		tableAbs.addMouseListener((MouseListener) new MouseAdapter(){  
@@ -173,6 +173,7 @@ public class AbsenceFrame extends JFrame {
 				
 		tableAbs.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JButton btnSupprimer = new JButton("Supprimer");
+		btnSupprimer.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnSupprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -200,10 +201,11 @@ public class AbsenceFrame extends JFrame {
 			}
 		});
 		
-		btnSupprimer.setBounds(32, 252, 97, 34);
+		btnSupprimer.setBounds(34, 315, 100, 35);
 		getContentPane().add(btnSupprimer);
 		
 		JButton btnModifier = new JButton("Modifier");
+		btnModifier.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnModifier.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -221,10 +223,11 @@ public class AbsenceFrame extends JFrame {
                 }
 			}
 		});
-		btnModifier.setBounds(139, 252, 97, 34);
+		btnModifier.setBounds(34, 269, 100, 35);
 		getContentPane().add(btnModifier);
 		
-		JButton btnEffacer = new JButton("Effacer");
+		JButton btnEffacer = new JButton("Vider");
+		btnEffacer.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnEffacer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				    txtNom.setText("");  
@@ -234,24 +237,31 @@ public class AbsenceFrame extends JFrame {
 				    cmbMotif.setSelectedItem(null);
 				}
 		});
-		btnEffacer.setBounds(246, 305, 97, 34);
+		btnEffacer.setBounds(186, 269, 100, 35);
 		getContentPane().add(btnEffacer);
 		
 		JButton btnQuitter = new JButton("Quitter");
-		btnQuitter.setBounds(32, 305, 97, 34);
+		btnQuitter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		btnQuitter.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnQuitter.setBounds(186, 315, 100, 35);
 		getContentPane().add(btnQuitter);
 		
-		JButton btnRetour = new JButton("Retour");
+		JButton btnRetour = new JButton("Retour Personnel");
+		btnRetour.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnRetour.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == btnRetour) {
-					new AbsenceFrame().setVisible(false);
 					new PersonnelFrame().setVisible(true);
+					dispose();
 				}
 			}
 		});
-		btnRetour.setBounds(139, 305, 97, 34);
+		btnRetour.setBounds(34, 375, 252, 35);
 		getContentPane().add(btnRetour);
 		
 	}

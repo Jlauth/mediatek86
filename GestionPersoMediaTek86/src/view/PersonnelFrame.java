@@ -9,8 +9,6 @@ import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -23,17 +21,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.RowSorter;
-import javax.swing.SortOrder;
 import javax.swing.WindowConstants;
-import javax.swing.event.RowSorterEvent;
-import javax.swing.event.RowSorterListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
-
 import controller.DataAccess;
 import model.Personnel;
+import java.awt.Font;
 
 public class PersonnelFrame extends JFrame {
 
@@ -55,11 +47,11 @@ public class PersonnelFrame extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setSize(734, 485);
 		this.setTitle("Gestion du personnel");
-		panel.setBounds(359, 30, 711, 481);
-		panel.setBackground(Color.GRAY);
+		panel.setBounds(359, 30, 300, 250);
+		panel.setBackground(Color.lightGray);
 		label.setForeground(Color.white);
 		panel.add(label);
-
+		
 		
 		/**
 		 * Initialisation du JTable Récupération via la DB 
@@ -131,6 +123,7 @@ public class PersonnelFrame extends JFrame {
 		getContentPane().add(cmbService);
 		
 		JButton btnAjouter = new JButton("Ajouter");
+		btnAjouter.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnAjouter.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -156,7 +149,7 @@ public class PersonnelFrame extends JFrame {
 			    }  
 			}
 		});
-		btnAjouter.setBounds(186, 259, 82, 29);
+		btnAjouter.setBounds(34, 223, 100, 35);
 		getContentPane().add(btnAjouter);
 		
 		table.addMouseListener((MouseListener) new MouseAdapter(){  
@@ -175,6 +168,7 @@ public class PersonnelFrame extends JFrame {
 		
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JButton btnSupprimer = new JButton("Supprimer");
+		btnSupprimer.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnSupprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -201,10 +195,11 @@ public class PersonnelFrame extends JFrame {
 			    	} 
 				}
 		});		
-		btnSupprimer.setBounds(184, 341, 82, 29);
+		btnSupprimer.setBounds(34, 315, 100, 35);
 		getContentPane().add(btnSupprimer);
 
 		JButton btnModifier = new JButton("Modifier");
+		btnModifier.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnModifier.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -223,10 +218,11 @@ public class PersonnelFrame extends JFrame {
                 }
             }
         });
-		btnModifier.setBounds(184, 300, 82, 29);
+		btnModifier.setBounds(34, 269, 100, 35);
 		getContentPane().add(btnModifier);
 		
-		JButton btnViderCases = new JButton("Effacer");
+		JButton btnViderCases = new JButton("Vider");
+		btnViderCases.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnViderCases.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				    txtNom.setText("");  
@@ -236,25 +232,32 @@ public class PersonnelFrame extends JFrame {
 				    cmbService.setSelectedItem(null);
 				}
 		});
-		btnViderCases.setBounds(184, 381, 84, 29);
+		btnViderCases.setBounds(186, 269, 100, 35);
 		getContentPane().add(btnViderCases);
 		
 
 		JButton btnQuitter = new JButton("Quitter");
-		btnQuitter.setBounds(34, 381, 82, 29);
+		btnQuitter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		btnQuitter.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnQuitter.setBounds(186, 315, 100, 35);
 		getContentPane().add(btnQuitter);
 
-		JButton btnAbsence = new JButton("Absence");
+		JButton btnAbsence = new JButton("Accès Absence");
+		btnAbsence.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnAbsence.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == btnAbsence) {
 					new AbsenceFrame().setVisible(true);
-					new PersonnelFrame().setVisible(false);
+					dispose();
 				}
 			}
 		});
-		btnAbsence.setBounds(34, 341, 82, 29);
+		btnAbsence.setBounds(34, 375, 252, 35);
 		getContentPane().add(btnAbsence);
 
 	}
