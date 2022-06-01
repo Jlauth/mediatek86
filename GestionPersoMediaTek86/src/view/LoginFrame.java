@@ -95,11 +95,13 @@ public class LoginFrame extends JFrame implements ActionListener {
               }
               
               // check password provided by user with stored password in database
-              if (login.equalsIgnoreCase("Test") && pwd.equalsIgnoreCase("1234")) {
-                  System.out.println("Logged in");
+              if (login.equalsIgnoreCase("responsable") && pwd.equalsIgnoreCase("MediaTek86!")) {
+                  JOptionPane.showMessageDialog(null, "Vous êtes connecté");
+                  dispose();
                   new PersonnelFrame().setVisible(true);
+                  
               } else {
-            	  System.out.println("Unable to login");
+            	  JOptionPane.showMessageDialog(null, "Impossible de se connecter");
               }
          }
     }

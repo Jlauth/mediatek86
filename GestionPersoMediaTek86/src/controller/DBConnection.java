@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 public class DBConnection {
@@ -89,12 +88,5 @@ public class DBConnection {
 			}
 		}
 	}
-
-	public Statement createStatement() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
 	
 }

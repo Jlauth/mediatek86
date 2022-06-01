@@ -9,7 +9,7 @@ import view.LoginFrame;
 public class Control {
 	
 	
-	/*public static void lireEnBase() {
+	public static void lireEnBase() {
 		ArrayList<Personnel> lesPersonnels = (ArrayList<Personnel>) DataAccess.recupPersonnels();
 		for(Personnel unPersonnel : lesPersonnels) {
 			System.out.println(unPersonnel.getNom()+" "+
@@ -17,9 +17,9 @@ public class Control {
 			unPersonnel.getTel()+" "+
 			unPersonnel.getMail()+" "+
 			unPersonnel.getService());
-		}*/
-	
-		/*ArrayList<Absence> lesAbsences = (ArrayList<Absence>) DataAccess.recupAbsences();
+		
+		
+		ArrayList<Absence> lesAbsences = (ArrayList<Absence>) DataAccess.recupAbsences();
 		for(Absence uneAbsence : lesAbsences) {
 			System.out.println(uneAbsence.getDatedebut()+" "+
 				uneAbsence.getNom()+" "+
@@ -28,11 +28,14 @@ public class Control {
 				uneAbsence.getDatefin()+" "+
 				uneAbsence.getMotif());
 			}
-	}*/
+		}
+	}
+
 		
 	public static void main(String[] args) {
-		//lireEnBase();	
+		lireEnBase();	
 		new LoginFrame().setVisible(true);
+		
 		}
 	
 }

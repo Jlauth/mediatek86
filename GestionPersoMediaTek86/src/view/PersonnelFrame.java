@@ -9,6 +9,8 @@ import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -21,8 +23,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import javax.swing.WindowConstants;
+import javax.swing.event.RowSorterEvent;
+import javax.swing.event.RowSorterListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import controller.DataAccess;
 import model.Personnel;
@@ -52,6 +60,7 @@ public class PersonnelFrame extends JFrame {
 		label.setForeground(Color.white);
 		panel.add(label);
 
+		
 		/**
 		 * Initialisation du JTable Récupération via la DB 
 		 * Iinitialisation des données du personnel
@@ -75,50 +84,50 @@ public class PersonnelFrame extends JFrame {
 		getContentPane().setLayout(null);
 		scrollPane.setBounds(299, 26, 396, 384);
 		getContentPane().add(scrollPane);
-
+		
 		JLabel lblNom = new JLabel("Nom");
-		lblNom.setBounds(34, 88, 76, 14);
+		lblNom.setBounds(34, 54, 76, 14);
 		getContentPane().add(lblNom);
 
 		JLabel lblPrenom = new JLabel("Prenom");
-		lblPrenom.setBounds(34, 116, 76, 14);
+		lblPrenom.setBounds(34, 82, 76, 14);
 		getContentPane().add(lblPrenom);
 
 		JLabel lblTel = new JLabel("Tel");
-		lblTel.setBounds(34, 141, 76, 14);
+		lblTel.setBounds(34, 107, 76, 14);
 		getContentPane().add(lblTel);
 
 		JLabel lblMail = new JLabel("Mail");
-		lblMail.setBounds(34, 166, 76, 14);
+		lblMail.setBounds(34, 132, 76, 14);
 		getContentPane().add(lblMail);
 
 		JLabel lblService = new JLabel("Service");
-		lblService.setBounds(34, 191, 76, 14);
+		lblService.setBounds(34, 161, 76, 14);
 		getContentPane().add(lblService);
 		
 		txtNom = new JTextField();
-		txtNom.setBounds(120, 85, 148, 20);
+		txtNom.setBounds(120, 51, 148, 20);
 		txtNom.setColumns(10);
 		getContentPane().add(txtNom);
 
 		txtPrenom = new JTextField();
 		txtPrenom.setColumns(10);
-		txtPrenom.setBounds(120, 113, 148, 20);
+		txtPrenom.setBounds(120, 79, 148, 20);
 		getContentPane().add(txtPrenom);
 
 		txtTel = new JTextField();
 		txtTel.setColumns(10);
-		txtTel.setBounds(120, 138, 148, 20);
+		txtTel.setBounds(120, 104, 148, 20);
 		getContentPane().add(txtTel);
 
 		txtMail = new JTextField();
 		txtMail.setColumns(10);
-		txtMail.setBounds(120, 163, 148, 20);
+		txtMail.setBounds(120, 129, 148, 20);
 		getContentPane().add(txtMail);
 
 		String[] service = {"Administratif", "Médiation culturelle", "Prêt"};
 		JComboBox<Object> cmbService = new JComboBox<>(service);
-		cmbService.setBounds(120, 187, 148, 22);
+		cmbService.setBounds(120, 157, 148, 22);
 		getContentPane().add(cmbService);
 		
 		JButton btnAjouter = new JButton("Ajouter");
@@ -147,7 +156,7 @@ public class PersonnelFrame extends JFrame {
 			    }  
 			}
 		});
-		btnAjouter.setBounds(184, 260, 82, 29);
+		btnAjouter.setBounds(186, 259, 82, 29);
 		getContentPane().add(btnAjouter);
 		
 		table.addMouseListener((MouseListener) new MouseAdapter(){  
@@ -207,6 +216,7 @@ public class PersonnelFrame extends JFrame {
                    model.setValueAt(txtPrenom.getText(), i, 1);
                    model.setValueAt(txtTel.getText(), i, 2);
                    model.setValueAt(txtMail.getText(), i, 3);
+                   model.setValueAt(cmbService.getSelectedItem(), i, 4);
                 }
                 else{
                     System.out.println("Update Error");

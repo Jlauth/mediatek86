@@ -1,19 +1,11 @@
 package controller;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
-
-import com.toedter.calendar.JDateChooser;
 
 import model.Absence;
 import model.Personnel;
+import model.Responsable;
 
 public class DataAccess {
 	private static String url = "jdbc:mysql://localhost/mediatek86";
@@ -63,7 +55,7 @@ public class DataAccess {
 		cn.close();
 		return lesPersonnels;
 		}
-	 
+	
 	public static List<Absence> recupAbsences() {
 		String sql = "select * from absence";
 		ArrayList<Absence> lesAbsences = new ArrayList<>();
@@ -73,8 +65,8 @@ public class DataAccess {
 			Absence uneAbsence = new Absence();
 			uneAbsence.setNom((String)cn.field("Nom"));
 			uneAbsence.setPrenom((String)cn.field("Prenom"));
-			uneAbsence.setDatedebut((java.sql.Date)cn.field("Date début"));
-			uneAbsence.setDatefin((java.sql.Date)cn.field("Date fin"));
+			uneAbsence.setDatedebut((String)cn.field("Date début"));
+			uneAbsence.setDatefin((String)cn.field("Date fin"));
 			uneAbsence.setMotif((String)cn.field("Motif"));
 			lesAbsences.add(uneAbsence);
 		}
@@ -82,6 +74,21 @@ public class DataAccess {
 		return lesAbsences;
 	}
 	
+	public static List<Responsable> recupResponsable() {
+		String sql = "select * from responsable";
+		ArrayList<Responsable> leResponsable = new ArrayList<>();
+		DBConnection cn = DBConnection.getInstance(url, login, pwd);
+		cn.reqSelect(sql);
+		while (cn.read()) {
+			Responsable unResponsable = new Responsable();
+			unResponsable.setLogin((String)cn.field("Login"));
+			unResponsable.setPwd((String)cn.field("Password"));
+			leResponsable.add(unResponsable);
+		}
+		cn.close();
+		return leResponsable;
+	
+	}
 	
 	
 

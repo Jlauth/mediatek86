@@ -7,28 +7,30 @@ public class Validation {
 	 public List<String> validateLogin(String login, String pwd) {
 	        ArrayList<String> err = new ArrayList<>();
 	        if (login.isEmpty()) {
-	            err.add("Login can not be empty");
-	        } else if (login.length() < 4) {
-	            err.add("Login is too short");
-	        } else if (login.length() > 20) {
-	            err.add("Login is too long");
+	            err.add("Login ne peut être vide");
 	        }
 	        if (pwd.isEmpty()) {
-	            err.add("Password can not be empty");
-	        } else if (pwd.length() < 4) {
-	            err.add("Password is too short");
-	        } else if (pwd.length() > 20) {
-	            err.add("Password is too long");
+	            err.add("Password ne peut être vide");
 	        }
 	        return err;
 	    }
 	 
-	 public List<String> validatePerso(String nom, String prenom, String tel, String mail, String cmbservice) {
-		 ArrayList<String> er = new ArrayList<>();
-		 
-	     return er;
+	 public List<String> validatePerso(String nom, String prenom, String tel, String mail) {
+		 ArrayList<String> err = new ArrayList<>();
+		 if(nom.isEmpty() && prenom.isEmpty() && tel.isEmpty() && mail.isEmpty()) {
+			 err.add("Merci de remplir tous les champs");
+		 }
+	     return err;
 	   
 	}
+	 
+	 public List<String> validateAbsence(String nom, String prenom, String datedebut, String datefin) {
+		 ArrayList<String> err = new ArrayList<>();
+		 if(nom.isEmpty() && prenom.isEmpty() && datedebut.isEmpty() && datefin.isEmpty()) {
+			 err.add("Merci de remplir tous les champs");
+		 }
+		 return err;
+	 }
 }
 
 

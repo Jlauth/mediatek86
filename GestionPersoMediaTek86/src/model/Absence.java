@@ -1,12 +1,10 @@
 package model;
 
-import java.sql.Date;
-
 public class Absence {
 	
 	
-	private Date datedebut;
-	private Date datefin;
+	private String datedebut;
+	private String datefin;
 	private String nom;
 	private String prenom;
 	private String motif;
@@ -14,14 +12,14 @@ public class Absence {
 	/**
 	 * @return the datedebut
 	 */
-	public java.util.Date getDatedebut() {
+	public String getDatedebut() {
 		return datedebut;
 	}
 	
 	/**
 	 * @return the datefin
 	 */
-	public java.sql.Date getDatefin() {
+	public String getDatefin() {
 		return datefin;
 	}
 	
@@ -29,14 +27,14 @@ public class Absence {
 	 * @param string the datefin to set
 	 */
 	
-	public void setDatefin(java.sql.Date datefin) {
+	public void setDatefin(String datefin) {
 		this.datefin = datefin;
 	}
 	
 	/**
 	 * @param string the datedebut to set
 	 */
-	public void setDatedebut(Date datedebut) {
+	public void setDatedebut(String datedebut) {
 		this.datedebut = datedebut;
 	}
 	

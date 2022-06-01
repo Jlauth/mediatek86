@@ -9,7 +9,7 @@ import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
-import java.util.Date;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -23,10 +23,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
-
-import com.toedter.calendar.JDateChooser;
 import controller.DataAccess;
 import model.Absence;
+import model.Validation;
 
 public class AbsenceFrame extends JFrame {
 
@@ -40,6 +39,8 @@ public class AbsenceFrame extends JFrame {
 	JTable tableAbs;
 	private JTextField txtNom;
 	private JTextField txtPrenom;   
+	private JTextField txtDebut;
+	private JTextField txtFin;
 	
 	public AbsenceFrame() {
 	
@@ -63,28 +64,21 @@ public class AbsenceFrame extends JFrame {
 		for(Absence et: (DataAccess.recupAbsences())) {
 		        body[i][0] = et.getNom();
 		        body[i][1] = et.getPrenom();
-		        body[i][2] = et.getDatedebut();
+		        body[i][2] = et.getDatedebut(); 
 		        body[i][3] = et.getDatefin();
 		        body[i][4] = et.getMotif();
 		        i++;
 		}
 		tableAbs.setModel(new DefaultTableModel(body,header)); 
+		getContentPane().setLayout(null);
 		DefaultTableModel model = (DefaultTableModel) tableAbs.getModel();
+		
+		tableAbs.setAutoCreateRowSorter(true);
 		
 		JScrollPane scrollPane = new JScrollPane(tableAbs);
 		getContentPane().setLayout(null);
 		scrollPane.setBounds(376, 11, 341, 361);
 		getContentPane().add(scrollPane);
-		
-		JDateChooser dtcDebut = new JDateChooser();
-		dtcDebut.setDateFormatString("yyyy-MM-dd");
-		dtcDebut.setBounds(155, 115, 115, 20);
-		getContentPane().add(dtcDebut);
-		
-		JDateChooser dtcFin = new JDateChooser();
-		dtcFin.setDateFormatString("yyyy-MM-dd");
-		dtcFin.setBounds(155, 146, 115, 20);
-		getContentPane().add(dtcFin);
 		
 		txtNom = new JTextField();
 		txtNom.setBounds(155, 53, 115, 20);
@@ -95,6 +89,17 @@ public class AbsenceFrame extends JFrame {
 		txtPrenom.setColumns(10);
 		txtPrenom.setBounds(155, 84, 115, 20);
 		getContentPane().add(txtPrenom);	
+		
+		txtDebut =  new JTextField();
+		txtDebut.setBounds(155, 115, 115, 20);
+		getContentPane().add(txtDebut);
+		txtDebut.setColumns(10);
+		
+		txtFin = new JTextField();
+		txtFin.setColumns(10);
+		txtFin.setBounds(155, 146, 115, 20);
+		getContentPane().add(txtFin);
+     
 		
 		String[] motif = {"Congé parental", "Maladie", "Motif familial", "Vacances"};
 		JComboBox<Object> cmbMotif = new JComboBox<>(motif);
@@ -110,11 +115,11 @@ public class AbsenceFrame extends JFrame {
 		getContentPane().add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Début absence");
-		lblNewLabel_2.setBounds(42, 115, 79, 14);
+		lblNewLabel_2.setBounds(42, 118, 79, 14);
 		getContentPane().add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("Fin absence");
-		lblNewLabel_3.setBounds(42, 141, 79, 14);
+		lblNewLabel_3.setBounds(42, 149, 79, 14);
 		getContentPane().add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_3_1 = new JLabel("Motif");
@@ -126,21 +131,20 @@ public class AbsenceFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Vector<String> v = new Vector<>();
-					v.add(txtNom.getText());
-					v.add(txtPrenom.getText());
-					v.add(((JTextField)dtcDebut.getDateEditor().getUiComponent()).getText());
-					v.add(((JTextField)dtcFin.getDateEditor().getUiComponent()).getText());
-					v.add(cmbMotif.getSelectedItem().toString());
+					Vector<String> vec = new Vector<>();
+					vec.add(txtNom.getText());
+					vec.add(txtPrenom.getText());
+					vec.add(txtDebut.getText());
+					vec.add(txtFin.getText());
+					vec.add(cmbMotif.getSelectedItem().toString());
 					DefaultTableModel model = (DefaultTableModel) tableAbs.getModel();
-					model.addRow(v);
+					model.addRow(vec);
 					
 					// establish connection
 					Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mediatek86", "responsable", "MediaTek86!");  
 					Statement statement = con.createStatement();  
 					statement.executeUpdate("INSERT INTO absence(nom, prenom, datedebut, datefin, motif) VALUES('" + txtNom.getText() + "','" + txtPrenom.getText() + "',"
-							+ "'" + ((JTextField)dtcDebut.getDateEditor().getUiComponent()).getText() + "','" + ((JTextField)dtcFin.getDateEditor().getUiComponent()).getText() + "',"
-									+ "'" + cmbMotif.getSelectedItem().toString() +"')");  
+							+ "'" + txtDebut.getText() + "','" + txtFin.getText() + "','" + cmbMotif.getSelectedItem().toString() +"')");  
 					JOptionPane.showMessageDialog(null, "Record inserted...");  
 					statement.close();  
 					con.close();  
@@ -150,7 +154,7 @@ public class AbsenceFrame extends JFrame {
 				}
 			}
 		});
-		btnAjouter.setBounds(10, 252, 97, 34);
+		btnAjouter.setBounds(246, 252, 97, 34);
 		getContentPane().add(btnAjouter);
 		
 		tableAbs.addMouseListener((MouseListener) new MouseAdapter(){  
@@ -158,16 +162,15 @@ public class AbsenceFrame extends JFrame {
 	        public void mouseClicked(MouseEvent e){
 	            // i = the index of the selected row
 	            int i = tableAbs.getSelectedRow();
-	            txtNom.setText(model.getValueAt(i, 0).toString());
-	            txtPrenom.setText(model.getValueAt(i, 1).toString());
-	            dtcDebut.setDate((Date)model.getValueAt(i, 2));
-	            dtcFin.setDate((Date) model.getValueAt(i, 3));
-	            cmbMotif.setSelectedItem(model.getValueAt(i, 4).toString());
+	            txtNom.setText((java.lang.String) model.getValueAt(i, 0));
+	            txtPrenom.setText((java.lang.String) model.getValueAt(i, 1));
+	            txtDebut.setText((java.lang.String) (model.getValueAt(i, 2)));
+	            txtFin.setText((java.lang.String) model.getValueAt(i, 3));
+	            cmbMotif.setSelectedItem(model.getValueAt(i, 4));
 	        }
 	        
 	    });
-		
-		
+				
 		tableAbs.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JButton btnSupprimer = new JButton("Supprimer");
 		btnSupprimer.addActionListener(new ActionListener() {
@@ -197,7 +200,7 @@ public class AbsenceFrame extends JFrame {
 			}
 		});
 		
-		btnSupprimer.setBounds(10, 342, 97, 34);
+		btnSupprimer.setBounds(32, 252, 97, 34);
 		getContentPane().add(btnSupprimer);
 		
 		JButton btnModifier = new JButton("Modifier");
@@ -210,15 +213,15 @@ public class AbsenceFrame extends JFrame {
                 {
                    model.setValueAt(txtNom.getText(), i, 0);
                    model.setValueAt(txtPrenom.getText(), i, 1);
-                   model.setValueAt(dtcDebut.getDate(), i, 2);
-                   model.setValueAt(dtcDebut.getDate(), i, 3);
+                   model.setValueAt(txtDebut.getText(), i, 2);
+                   model.setValueAt(txtFin.getText(), i, 3);
                 }
                 else{
                     System.out.println("Update Error");
                 }
 			}
 		});
-		btnModifier.setBounds(10, 297, 97, 34);
+		btnModifier.setBounds(139, 252, 97, 34);
 		getContentPane().add(btnModifier);
 		
 		JButton btnEffacer = new JButton("Effacer");
@@ -226,28 +229,32 @@ public class AbsenceFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				    txtNom.setText("");  
 				    txtPrenom.setText("");   
+				    txtDebut.setText("");
+				    txtFin.setText("");
 				    cmbMotif.setSelectedItem(null);
 				}
 		});
-		btnEffacer.setBounds(200, 252, 97, 34);
+		btnEffacer.setBounds(246, 305, 97, 34);
 		getContentPane().add(btnEffacer);
 		
 		JButton btnQuitter = new JButton("Quitter");
-		btnQuitter.setBounds(200, 297, 97, 34);
+		btnQuitter.setBounds(32, 305, 97, 34);
 		getContentPane().add(btnQuitter);
 		
-		JButton btnPersonnel = new JButton("Personnel");
-		btnPersonnel.addActionListener(new ActionListener() {
+		JButton btnRetour = new JButton("Retour");
+		btnRetour.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (e.getSource() == btnPersonnel) {
+				if (e.getSource() == btnRetour) {
 					new AbsenceFrame().setVisible(false);
 					new PersonnelFrame().setVisible(true);
 				}
 			}
 		});
-		btnPersonnel.setBounds(200, 342, 97, 34);
-		getContentPane().add(btnPersonnel);
-     
+		btnRetour.setBounds(139, 305, 97, 34);
+		getContentPane().add(btnRetour);
+		
 	}
+
+	
 }
